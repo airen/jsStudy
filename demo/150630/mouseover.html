@@ -43,9 +43,17 @@
 	<div id="tipBox" class="tip">不要在网吧里使用记住密码等操作....</div>
 
 	<script>
+		//获取单个元素
+		function $(q) {
+			return document.querySelector(q);
+		}
+		//获取多个元素
+		function $$(q) {
+			return document.querySelectorAll(q);
+		}
         window.onload = function (){
-        	var oHolder = document.getElementById('placeholder');
-        	var oTipBox = document.getElementById('tipBox');
+        	var oHolder = $('#placeholder');
+        	var oTipBox = $('#tipBox');
         	oHolder.onmouseover = function () {
         		oTipBox.style.display = 'block';
         	}
