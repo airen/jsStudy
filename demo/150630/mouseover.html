@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>MouseOver</title>
+	<style type="text/css" media="screen">
+		.tip{
+			border:1px solid #ccc;
+			padding: 10px;
+			border-radius: 5px;
+			max-width: 300px;
+			margin-top: 10px;
+			position: relative;
+			display: none;
+		}
+		.tip:before,
+		.tip:after{
+			content:"";
+			position: absolute;
+			border: 10px solid transparent;
+		}
+		.tip:after{
+			border-color: transparent transparent #ccc transparent;
+			left: 20px;
+			bottom: 100%;
+			z-index: 2;
+		}
+		.tip:before {
+			border-width: 8px;
+			border-color: transparent transparent white transparent;
+			left: 22px;
+			bottom: 100%;
+			z-index: 3;
+		}
+		label {
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<label id="placeholder"><input type="checkbox" name="" value="">记住密码</label>
+	<div id="tipBox" class="tip">不要在网吧里使用记住密码等操作....</div>
+
+	<script>
+        window.onload = function (){
+        	var oHolder = document.getElementById('placeholder');
+        	var oTipBox = document.getElementById('tipBox');
+        	oHolder.onmouseover = function () {
+        		oTipBox.style.display = 'block';
+        	}
+        	oHolder.onmouseout = function (){
+        		oTipBox.style.display = 'none';
+        	}
+		}
+	</script>
+</body>
+</html>
