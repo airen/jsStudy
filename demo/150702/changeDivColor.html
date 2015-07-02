@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Change Backgroud color for Divs</title>
+	<style type="text/css" media="screen">
+		body {
+			text-align: center;
+		}
+		button {
+			padding: 10px 20px;
+			border: 1px solid #ddd;
+			background-color: #fff;
+			font-size: 1em;
+			box-shadow: 0 0 0 2px rgba(0,0,0,.02);
+			border-radius: 4px;
+			cursor: pointer;
+			display: inline-block;
+			margin-bottom: 20px;
+		}
+		#outer div {
+			display: inline-block;
+			width: 200px;
+			height: 200px;
+			background-color: orange;
+			margin: 5px;
+		}
+	</style>
+</head>
+<body>
+	<button id="btn" type="button">点击按钮改变Div背景色</button>
+	<div id="outer">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+	<script>
+        window.onload = function(){
+        	//获取按钮
+        	var oBtn = document.getElementById('btn');
+        	//获取要改变颜色的div
+        	var oDivs = document.getElementById('outer').getElementsByTagName('div');
+
+        	oBtn.onclick = function(){
+        		for (var i = 0; i < oDivs.length; i++) {
+        			oDivs[i].style.backgroundColor='red';
+        		}
+        	}
+        }
+	</script>
+</body>
+</html>
