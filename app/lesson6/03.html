@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>自定义多级右键菜单</title>
+    <style type="text/css">
+    html,
+    body {
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    body,
+    div,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font: 12px/1.5 \5fae\8f6f\96c5\9ed1;
+    }
+    
+    ul {
+        list-style-type: none;
+    }
+    
+    #rightMenu {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    #rightMenu ul {
+        float: left;
+        border: 1px solid #979797;
+        background: #f1f1f1 url(../../../src/images/line.png) 24px 0 repeat-y;
+        padding: 2px;
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, .6);
+    }
+    
+    #rightMenu ul li {
+        float: left;
+        clear: both;
+        height: 24px;
+        cursor: pointer;
+        line-height: 24px;
+        white-space: nowrap;
+        padding: 0 30px;
+    }
+    
+    #rightMenu ul li.sub {
+        background-repeat: no-repeat;
+        background-position: right 9px;
+        background-image: url(../../../src/images/arrow.png);
+    }
+    
+    #rightMenu ul li.active {
+        background-color: #f1f3f6;
+        border-radius: 3px;
+        border: 1px solid #aecff7;
+        height: 22px;
+        line-height: 22px;
+        background-position: right -8px;
+        padding: 0 29px;
+    }
+    
+    #rightMenu ul ul {
+        display: none;
+        position: absolute;
+    }
+    </style>
+    <script type="text/javascript">
+    var getOffset = {
+        top: function(obj) {
+            return obj.offsetTop + (obj.offsetParent ? arguments.callee(obj.offsetParent) : 0)
+        },
+        left: function(obj) {
+            return obj.offsetLeft + (obj.offsetParent ? arguments.callee(obj.offsetParent) : 0)
+        }
+    };
+    window.onload = function() {
+        var oMenu = document.getElementById("rightMenu");
+        var aUl = oMenu.getElementsByTagName("ul");
+        var aLi = oMenu.getElementsByTagName("li");
+        var showTimer = hideTimer = null;
+        var i = 0;
+        var maxWidth = maxHeight = 0;
+        var aDoc = [document.documentElement.offsetWidth, document.documentElement.offsetHeight];
+
+        oMenu.style.display = "none";
+
+        for (i = 0; i < aLi.length; i++) {
+            //为含有子菜单的li加上箭头
+            aLi[i].getElementsByTagName("ul")[0] && (aLi[i].className = "sub");
+
+            //鼠标移入
+            aLi[i].onmouseover = function() {
+                var oThis = this;
+                var oUl = oThis.getElementsByTagName("ul");
+
+                //鼠标移入样式
+                oThis.className += " active";
+
+                //显示子菜单
+                if (oUl[0]) {
+                    clearTimeout(hideTimer);
+                    showTimer = setTimeout(function() {
+                        for (i = 0; i < oThis.parentNode.children.length; i++) {
+                            oThis.parentNode.children[i].getElementsByTagName("ul")[0] &&
+                                (oThis.parentNode.children[i].getElementsByTagName("ul")[0].style.display = "none");
+                        }
+                        oUl[0].style.display = "block";
+                        oUl[0].style.top = oThis.offsetTop + "px";
+                        oUl[0].style.left = oThis.offsetWidth + "px";
+                        setWidth(oUl[0]);
+
+                        //最大显示范围					
+                        maxWidth = aDoc[0] - oUl[0].offsetWidth;
+                        maxHeight = aDoc[1] - oUl[0].offsetHeight;
+
+                        //防止溢出
+                        maxWidth < getOffset.left(oUl[0]) && (oUl[0].style.left = -oUl[0].clientWidth + "px");
+                        maxHeight < getOffset.top(oUl[0]) && (oUl[0].style.top = -oUl[0].clientHeight + oThis.offsetTop + oThis.clientHeight + "px")
+                    }, 300);
+                }
+            };
+
+            //鼠标移出	
+            aLi[i].onmouseout = function() {
+                var oThis = this;
+                var oUl = oThis.getElementsByTagName("ul");
+                //鼠标移出样式
+                oThis.className = oThis.className.replace(/\s?active/, "");
+
+                clearTimeout(showTimer);
+                hideTimer = setTimeout(function() {
+                    for (i = 0; i < oThis.parentNode.children.length; i++) {
+                        oThis.parentNode.children[i].getElementsByTagName("ul")[0] &&
+                            (oThis.parentNode.children[i].getElementsByTagName("ul")[0].style.display = "none");
+                    }
+                }, 300);
+            };
+        }
+
+
+        //自定义右键菜单
+        document.oncontextmenu = function(event) {
+            var event = event || window.event;
+            oMenu.style.display = "block";
+            oMenu.style.top = event.clientY + "px";
+            oMenu.style.left = event.clientX + "px";
+            setWidth(aUl[0]);
+
+            //最大显示范围
+            maxWidth = aDoc[0] - oMenu.offsetWidth;
+            maxHeight = aDoc[1] - oMenu.offsetHeight;
+
+            //防止菜单溢出
+            oMenu.offsetTop > maxHeight && (oMenu.style.top = maxHeight + "px");
+            oMenu.offsetLeft > maxWidth && (oMenu.style.left = maxWidth + "px");
+            return false;
+        };
+
+        //点击隐藏菜单
+        document.onclick = function() {
+            oMenu.style.display = "none"
+        };
+
+        //取li中最大的宽度, 并赋给同级所有li	
+        function setWidth(obj) {
+            maxWidth = 0;
+            for (i = 0; i < obj.children.length; i++) {
+                var oLi = obj.children[i];
+                var iWidth = oLi.clientWidth - parseInt(oLi.currentStyle ? oLi.currentStyle["paddingLeft"] : getComputedStyle(oLi, null)["paddingLeft"]) * 2
+                if (iWidth > maxWidth) maxWidth = iWidth;
+            }
+            for (i = 0; i < obj.children.length; i++) obj.children[i].style.width = maxWidth + "px";
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <center>自定义右键菜单，请在页面点击右键查看效果。</center>
+    <div id="rightMenu">
+        <ul>
+            <li><strong>JavaScript 学习</strong></li>
+            <li>
+                第一课
+                <ul>
+                    <li>网页特效原理分析</li>
+                    <li>响应用户操作</li>
+                    <li>提示框效果</li>
+                    <li>事件驱动</li>
+                    <li>元素属性操作</li>
+                </ul>
+            </li>
+            <li>
+                第二课
+                <ul>
+                    <li>改变网页背景颜色</li>
+                    <li>函数传参</li>
+                    <li>高重用性函数的编写</li>
+                    <li>126邮箱全选效果</li>
+                    <li>循环及遍历操作</li>
+                </ul>
+            </li>
+            <li>
+                第三课
+                <ul>
+                    <li>
+                        JavaScript组成
+                        <ul>
+                            <li>ECMAScript</li>
+                            <li>DOM</li>
+                            <li>BOM</li>
+                            <li>JavaScript兼容性来源</li>
+                        </ul>
+                    </li>
+                    <li>JavaScript出现的位置、优缺点</li>
+                    <li>变量、类型、typeof、数据类型转换、变量作用域</li>
+                    <li>
+                        闭包
+                        <ul>
+                            <li>什么是闭包</li>
+                            <li>简单应用</li>
+                            <li>闭包缺点</li>
+                        </ul>
+                    </li>
+                    <li>运算符</li>
+                    <li>程序流程控制</li>
+                    <li>
+                        定时器的使用
+                        <ul>
+                            <li>setInterval</li>
+                            <li>setTimeout</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>拖拽--Clone</title>
+    <style type="text/css">
+    body,
+    div {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #3e3e3e;
+    }
+    
+    div {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        cursor: move;
+        border: 1px solid #888;
+        background: #000;
+    }
+    
+    #drag1 {
+        top: 100px;
+        left: 100px;
+    }
+    
+    #drag2 {
+        top: 100px;
+        left: 300px;
+    }
+    
+    #temp {
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+    }
+    </style>
+    <script type="text/javascript">
+    var zIndex = 1;
+    window.onload = function() {
+        var oDrag1 = document.getElementById("drag1");
+        var oDrag2 = document.getElementById("drag2");
+        drag(oDrag1);
+        drag(oDrag2);
+    };
+
+    function drag(oDrag) {
+        var disX = dixY = 0;
+        oDrag.onmousedown = function(event) {
+            var event = event || window.event;
+            disX = event.clientX - this.offsetLeft;
+            disY = event.clientY - this.offsetTop;
+
+            var oTemp = document.createElement("div");
+            oTemp["id"] = "temp";
+            oTemp.style.left = this.currentStyle ? this.currentStyle["left"] : getComputedStyle(this, null)["left"];
+            oTemp.style.top = this.currentStyle ? this.currentStyle["top"] : getComputedStyle(this, null)["top"];
+            oTemp.style.zIndex = zIndex++;
+            document.body.appendChild(oTemp);
+
+            document.onmousemove = function(event) {
+                var event = event || window.event;
+                var iL = event.clientX - disX;
+                var iT = event.clientY - disY;
+                var maxL = document.documentElement.clientWidth - oDrag.offsetWidth;
+                var maxT = document.documentElement.clientHeight - oDrag.offsetHeight
+
+                iL <= 0 && (iL = 0);
+                iT <= 0 && (iT = 0);
+                iL >= maxL && (iL = maxL);
+                iT >= maxT && (iT = maxT);
+
+                oTemp.style.left = iL + "px";
+                oTemp.style.top = iT + "px";
+                return false;
+            };
+
+            document.onmouseup = function() {
+                document.onmousemove = null;
+                document.onmouseup = null;
+                oDrag.style.left = oTemp.style.left;
+                oDrag.style.top = oTemp.style.top;
+                oDrag.style.zIndex = oTemp.style.zIndex;
+                document.body.removeChild(oTemp);
+                oDrag.releaseCapture && oDrag.releaseCapture()
+            };
+
+            this.setCapture && this.setCapture();
+            return false
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="drag1"></div>
+    <div id="drag2"></div>
+</body>
+
+</html>

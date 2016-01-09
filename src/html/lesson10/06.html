@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无缝滚动</title>
+    <style type="text/css">
+    body,
+    div,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #052D01;
+        font: 12px/1.5 arial;
+    }
+    
+    #box {
+        position: relative;
+        width: 210px;
+        height: 700px;
+        border: 1px solid #5E8743;
+        margin: 20px;
+    }
+    
+    #box div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 160px;
+        height: 570px;
+        overflow: hidden;
+        margin: -285px 0 0 -80px;
+    }
+    
+    #box .up,
+    #box .down {
+        position: absolute;
+        left: 50%;
+        width: 48px;
+        height: 48px;
+        z-index: 10;
+        cursor: pointer;
+        overflow: hidden;
+        margin-left: -24px;
+        text-indent: -9999px;
+        background: url(../../../src/images/arrow.jpg) no-repeat;
+    }
+    
+    #box .up {
+        top: 10px;
+        background-position: 0 0;
+    }
+    
+    #box .down {
+        bottom: 10px;
+        background-position: 0 bottom;
+    }
+    
+    #box ul {
+        position: absolute;
+        width: 160px;
+    }
+    
+    #box li {
+        width: 160px;
+        height: 190px;
+        list-style: none;
+        text-align: center;
+    }
+    
+    #box a {
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    
+    #box img {
+        width: 156px;
+        height: 156px;
+        display: block;
+        margin-bottom: 5px;
+        border: 2px solid #ccc;
+    }
+    </style>
+    <script type="text/javascript">
+    //获取id
+    function $(id) {
+        return typeof id === "string" ? document.getElementById(id) : id;
+    }
+    //获取tagName
+    function $$(elem, oParent) {
+        return (oParent || document).getElementsByTagName(elem);
+    }
+    //获取class
+    function $$$(className, oParent) {
+        var aClass = [];
+        var reClass = new RegExp("(//s|^)" + className + "($|//s)");
+        var aElem = $$("*", oParent);
+        for (var i = 0; i < aElem.length; i++) reClass.test(aElem[i].className) && aClass.push(aElem[i]);
+        return aClass
+    }
+    //初始化对象
+    function Roll() {
+        this.initialize.apply(this, arguments)
+    }
+    Roll.prototype = {
+        initialize: function(obj) {
+            var _this = this;
+            this.obj = $(obj);
+            this.oUp = $$$("up", this.obj)[0];
+            this.oDown = $$$("down", this.obj)[0];
+            this.oList = $$$("list", this.obj)[0];
+            this.aItem = this.oList.children;
+            this.timer = null;
+            this.iHeight = this.aItem[0].offsetHeight;
+            this.oUp.onclick = function() {
+                _this.up()
+            };
+            this.oDown.onclick = function() {
+                _this.down()
+            }
+        },
+        up: function() {
+            this.oList.insertBefore(this.aItem[this.aItem.length - 1], this.oList.firstChild);
+            this.oList.style.top = -this.iHeight + "px";
+            this.doMove(0)
+        },
+        down: function() {
+            this.doMove(-this.iHeight, function() {
+                this.oList.appendChild(this.aItem[0]);
+                this.oList.style.top = 0;
+            })
+        },
+        doMove: function(iTarget, callBack) {
+            var _this = this;
+            clearInterval(this.timer)
+            this.timer = setInterval(function() {
+                var iSpeed = (iTarget - _this.oList.offsetTop) / 5;
+                iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+                _this.oList.offsetTop == iTarget ? (clearInterval(_this.timer), callBack && callBack.apply(_this)) : _this.oList.style.top = iSpeed + _this.oList.offsetTop + "px"
+            }, 30)
+        }
+    };
+
+    window.onload = function() {
+        new Roll("box");
+    };
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <span class="up">up</span>
+        <span class="down">down</span>
+        <div>
+            <ul class="list">
+                <li>
+                    <a href="javascript:;"><img src="../../../src/images/1.jpeg" />Ozolio - Webcam Hosting</a>
+                </li>
+                <li>
+                    <a href="javascript:;"><img src="../../../src/images/2.jpeg" />Sullivan Construction Inc.</a>
+                </li>
+                <li>
+                    <a href="javascript:;"><img src="../../../src/images/3.jpeg" />Maui Stables</a>
+                </li>
+                <li>
+                    <a href="javascript:;"><img src="../../../src/images/4.jpeg" />Code Rebel 3.0</a>
+                </li>
+                <li>
+                    <a href="javascript:;"><img src="../../../src/images/5.jpeg" />SecurityPro Shop</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

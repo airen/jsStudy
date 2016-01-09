@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>阻止右键菜单（阻止默认事件）</title>
+    <style>
+    pre {
+        color: green;
+        padding: 10px 15px;
+        background: #f0f0f0;
+        border: 1px dotted #333;
+        font: 12px/1.5 Courier New;
+    }
+    
+    span {
+        color: #999;
+    }
+    </style>
+    <script type="text/javascript">
+    document.oncontextmenu = function() {
+        return false
+    }
+    </script>
+</head>
+
+<body>
+    <pre>&lt;script type="text/javascript"&gt;
+<span>//※oncontextmenu</span>
+document.oncontextmenu = function ()
+{
+	return false
+}
+&lt;/script&gt;
+</pre>
+</body>
+
+</html>

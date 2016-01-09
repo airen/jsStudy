@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>输入两个数字，比较大小</title>
+    <style>
+    body {
+        font: 12px/1.5 arial;
+        text-align: center;
+    }
+    
+    .f-text {
+        width: 50px;
+        border: 1px solid #ccc;
+        background: #f0f0f0;
+        font-family: inherit;
+        padding: 3px;
+    }
+    
+    .f-btn {
+        margin: 0 10px;
+    }
+    
+    strong {
+        padding: 0 10px;
+    }
+    
+    span {
+        font-weight: 700;
+        color: red;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var aInput = document.getElementsByTagName("input");
+        var aSpan = document.getElementsByTagName("span")[0];
+        var i = 0;
+
+        for (i = 0; i < aInput.length - 1; i++) {
+            aInput[i].onkeyup = function() {
+                this.value = this.value.replace(/[^\d]/, "")
+            }
+        }
+
+        aInput[2].onclick = function() {
+            (aInput[0].value == "" || aInput[1].value == "") ?
+            alert("请输入数字！"):
+                (aSpan.innerHTML = Math.max(aInput[0].value, aInput[1].value));
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <input type="text" class="f-text" /><strong>vs</strong>
+    <input type="text" class="f-text" />
+    <input type="button" value="最大的数是 &raquo;" class="f-btn" /><span>？</span>
+</body>
+
+</html>

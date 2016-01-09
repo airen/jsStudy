@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>为数组添加方法（求和，最大值）</title>
+    <style type="text/css">
+    pre {
+        color: green;
+        padding: 10px 15px;
+        background: #f0f0f0;
+        border: 1px dotted #333;
+        font: 12px/1.5 Courier New;
+    }
+    
+    span {
+        color: #999;
+    }
+    </style>
+</head>
+
+<body>
+    <pre>
+&lt;script type="text/javascript"&gt;
+<span>//求和</span>
+Array.prototype.sum = function ()
+{
+	for (var sum = i = 0; i < this.length; i++)sum += parseInt(this[i]);
+	return sum
+};
+<span>//求最大值</span>
+Array.prototype.maxima = function ()
+{
+	for (var i = 0, maxValue = Number.MIN_VALUE; i < this.length; i++)parseInt(this[i]) > maxValue && (maxValue = this[i]);
+	return maxValue
+};
+<span>//应用</span>
+var arr = [1,21,3,4,22,45,6,7,32];
+alert(arr.join("+") + "=" + arr.sum());<span> //和：141</span>
+alert(arr.join("|") + "中, 最大的数是:" + arr.maxima());<span> //最大数：45</span>
+&lt;/script&gt;
+</pre>
+    <script type="text/javascript">
+    //求和
+    Array.prototype.sum = function() {
+        for (var sum = i = 0; i < this.length; i++) sum += parseInt(this[i]);
+        return sum
+    };
+    //求最大值
+    Array.prototype.maxima = function() {
+        for (var i = 0, maxValue = Number.MIN_VALUE; i < this.length; i++) parseInt(this[i]) > maxValue && (maxValue = this[i]);
+        return maxValue
+    };
+    //应用
+    var arr = [1, 21, 3, 4, 22, 45, 6, 7, 32];
+    alert(arr.join("+") + "=" + arr.sum());
+    alert(arr.join("|") + "中, 最大的数是:" + arr.maxima());
+    </script>
+</body>
+
+</html>

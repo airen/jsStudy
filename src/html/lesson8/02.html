@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>自定义滚动条</title>
+    <style type="text/css">
+    body,
+    div,
+    ul,
+    li,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #3e3e3e;
+        font: 14px/1.5 \5fae\8f6f\96c5\9ed1;
+    }
+    
+    #box {
+        width: 600px;
+        margin: 20px auto;
+    }
+    
+    .list {
+        position: relative;
+        width: 600px;
+        height: 144px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    
+    .list ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 144px;
+    }
+    
+    .list li {
+        display: inline;
+        float: left;
+        width: 144px;
+        height: 144px;
+        list-style: none;
+        background: #000;
+        margin-right: 8px;
+        border-radius: 8px;
+    }
+    
+    .list li img {
+        float: left;
+        width: 124px;
+        height: 100px;
+        border-radius: 5px;
+        margin: 10px 0 0 10px;
+    }
+    
+    .list li p {
+        float: left;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+        line-height: 34px;
+    }
+    
+    .scrollBar {
+        position: relative;
+        height: 19px;
+        background: #0a0a0a;
+        overflow: hidden;
+    }
+    
+    .scrollBar .barL,
+    .scrollBar .barR,
+    .scrollBar .barLStop,
+    .scrollBar .barRStop {
+        position: absolute;
+        top: 0;
+        width: 28px;
+        height: 19px;
+        cursor: pointer;
+        background: url(../../../src/images/bar03.gif) no-repeat;
+    }
+    
+    .scrollBar .barL {
+        left: 0;
+    }
+    
+    .scrollBar .barR {
+        right: 0;
+        background-position: right 0;
+    }
+    
+    .scrollBar .barLStop {
+        left: 0;
+        background-position: 0 -19px;
+        cursor: default;
+    }
+    
+    .scrollBar .barRStop {
+        right: 0;
+        background-position: right -19px;
+        cursor: default;
+    }
+    
+    .scrollBar .barM {
+        position: relative;
+        height: 15px;
+        border: 1px solid #545454;
+        border-width: 1px 0;
+        margin: 0 28px;
+        padding: 1px 0;
+        z-index: 1;
+        cursor: pointer;
+    }
+    
+    .scrollBar .bar {
+        position: absolute;
+        top: 1px;
+        left: 0;
+        width: 150px;
+        height: 15px;
+        cursor: e-resize;
+        background: url(../../../src/images/bar01.gif) repeat-x;
+    }
+    
+    .scrollBar .bar .l,
+    .scrollBar .bar .r {
+        position: absolute;
+        top: 0;
+        width: 6px;
+        height: 15px;
+        background: url(../../../src/images/bar02.gif) no-repeat;
+    }
+    
+    .scrollBar .bar .l {
+        left: -6px;
+    }
+    
+    .scrollBar .bar .r {
+        right: -6px;
+        background-position: right 0;
+    }
+    
+    #desc {
+        color: #ccc;
+        width: 578px;
+        padding: 10px;
+        margin: 0 auto;
+        line-height: 2;
+        border: 1px dashed #666;
+    }
+    
+    #desc dd {
+        margin-left: 2em;
+    }
+    
+    .ta-r {
+        text-align: right;
+    }
+    </style>
+    <script type="text/javascript">
+    /*-------------------------- +
+      获取id, class, tagName
+     +-------------------------- */
+    var get = {
+        byId: function(id) {
+            return typeof id === "string" ? document.getElementById(id) : id
+        },
+        byClass: function(sClass, oParent) {
+            var aClass = [];
+            var reClass = new RegExp("(^| )" + sClass + "( |$)");
+            var aElem = this.byTagName("*", oParent);
+            for (var i = 0; i < aElem.length; i++) reClass.test(aElem[i].className) && aClass.push(aElem[i]);
+            return aClass
+        },
+        byTagName: function(elem, obj) {
+            return (obj || document).getElementsByTagName(elem)
+        }
+    };
+    /*-------------------------- +
+      获取最终样式
+     +-------------------------- */
+    function getStyle(obj, attr) {
+        return parseFloat(obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, null)[attr])
+    }
+    window.onload = function() {
+        var oBox = get.byId("box");
+        var oScrollBar = get.byClass("scrollBar", oBox)[0];
+        var oList = get.byClass("list", oBox)[0];
+        var oUl = get.byTagName("ul", oBox)[0];
+        var aLi = get.byTagName("li", oBox);
+        var oBarL = get.byClass("barL", oScrollBar)[0];
+        var oBarM = get.byClass("barM", oScrollBar)[0];
+        var oBarR = get.byClass("barR", oScrollBar)[0];
+        var oBar = get.byClass("bar", oBarM)[0];
+        var maxL = oBarM.offsetWidth - oBar.offsetWidth;
+        var iMarginRight = getStyle(aLi[0], "marginRight");
+        var timer = null;
+        var iScale = 0;
+        var disX = 0;
+        var i = 0;
+
+        //图片列表容器动态设置宽度
+        oUl.style.width = (aLi[0].offsetWidth + iMarginRight) * aLi.length + "px";
+
+        //拖动滚动条
+        oBar.onmousedown = function(event) {
+            var event = event || window.event;
+            disX = event.clientX - oBar.offsetLeft;
+            document.onmousemove = function(event) {
+                var event = event || window.event;
+                var iL = event.clientX - disX;
+                iL <= 0 && (iL = 0);
+                iL >= maxL && (iL = maxL);
+                oBar.style.left = iL + "px";
+                iScale = iL / maxL;
+                return false
+            };
+            document.onmouseup = function() {
+                startMove(oUl, parseInt((oList.offsetWidth + iMarginRight - oUl.offsetWidth) * iScale));
+                isStop();
+                document.onmousemove = null;
+                document.onmouseup = null
+            };
+            return false
+        };
+        //阻止滚动条点击事件冒泡
+        oBar.onclick = function(event) {
+            (event || window.event).cancelBubble = true
+        };
+
+        //滚动条左右按钮鼠标移入及键盘左右键按下事件
+        oBarL.onmouseover = oBarR.onmouseover = document.onkeydown = function(event) {
+            clearInterval(timer);
+            var event = event || window.event;
+            var iSpeed = 0;
+            if (this == oBarR || event.keyCode == 39) {
+                iSpeed = 5
+            } else if (this == oBarL || event.keyCode == 37) {
+                iSpeed = -5
+            }
+            timer = setInterval(function() {
+                togetherMove(getStyle(oBar, "left") + iSpeed, 1)
+            }, 30)
+        };
+        //滚动条左右按钮鼠标移开及键盘左右键抬起事件
+        oBarL.onmouseout = oBarR.onmouseout = document.onkeyup = function() {
+            clearInterval(timer)
+        };
+
+        //滚动条可移动区域点击事件
+        oBarM.onclick = function(event) {
+            var iTarget = (event || window.event).clientX - oBox.offsetLeft - this.offsetLeft - oBar.offsetWidth / 2;
+            togetherMove(iTarget)
+        };
+
+        //鼠标滚轮事件
+        oBox.onmouseover = function(event) {
+            event = event || window.event;
+
+            function mouseWheel(event) {
+                var delta = event.wheelDelta ? event.wheelDelta : -event.detail * 40
+                var iTarget = delta > 0 ? -50 : 50;
+                togetherMove(oBar.offsetLeft + iTarget)
+            }
+            addHandler(this, "mousewheel", mouseWheel);
+            addHandler(this, "DOMMouseScroll", mouseWheel);
+        };
+
+        //图片列表和流动条同时移动
+        function togetherMove(iTarget, buffer) {
+            if (iTarget <= 0) {
+                timer && clearInterval(timer);
+                iTarget = 0
+            } else if (iTarget >= maxL) {
+                timer && clearInterval(timer);
+                iTarget = maxL
+            }
+            iScale = iTarget / maxL;
+            startMove(oUl, parseInt((oList.offsetWidth + iMarginRight - oUl.offsetWidth) * iScale), function() {
+                isStop()
+            }, buffer);
+            startMove(oBar, iTarget, function() {
+                isStop()
+            }, buffer)
+        }
+
+        //判断滚动条是否到达边界
+        function isStop() {
+            oBarL.className = "barL";
+            oBarR.className = "barR";
+            switch (oBar.offsetLeft) {
+                case 0:
+                    /(^|\s)barLStop(\s|$)/.test(oBarL.className) || (oBarL.className += " barLStop");
+                    break;
+                case maxL:
+                    /(^|\s)barRStop(\s|$)/.test(oBarR.className) || (oBarR.className += " barRStop");
+                    break;
+            }
+        }
+        isStop()
+    };
+
+    function addHandler(element, type, handler) {
+        return element.addEventListener ? element.addEventListener(type, handler, false) : element.attachEvent("on" + type, handler)
+    }
+
+    function startMove(obj, iTarget, fnEnd, buffer) {
+        clearInterval(obj.timer);
+        obj.timer = setInterval(function() {
+            doMove(obj, iTarget, fnEnd, buffer)
+        }, 25)
+    }
+
+    function doMove(obj, iTarget, fnEnd, buffer) {
+        var iLeft = getStyle(obj, "left");
+        var iSpeed = (iTarget - iLeft) / (buffer || 5);
+        iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+        iLeft == iTarget ? (clearInterval(obj.timer), fnEnd && fnEnd()) : obj.style.left = iLeft + iSpeed + "px"
+    }
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <div class="list">
+            <ul>
+                <li><img src="../../../src/images/bar1.jpg" />
+                    <p>iPhone 4</p>
+                </li>
+                <li><img src="../../../src/images/bar2.jpg" />
+                    <p>iPad 2</p>
+                </li>
+                <li><img src="../../../src/images/bar3.jpg" />
+                    <p>iPod touch</p>
+                </li>
+                <li><img src="../../../src/images/bar4.jpg" />
+                    <p>iPod classic</p>
+                </li>
+                <li><img src="../../../src/images/bar5.jpg" />
+                    <p>iPod shuffle</p>
+                </li>
+                <li><img src="../../../src/images/bar6.jpg" />
+                    <p>iPod nano</p>
+                </li>
+                <li><img src="../../../src/images/bar7.jpg" />
+                    <p>MacBook Air</p>
+                </li>
+                <li><img src="../../../src/images/bar8.jpg" />
+                    <p>MacBook Pro</p>
+                </li>
+                <li><img src="../../../src/images/bar9.jpg" />
+                    <p>Mac mini</p>
+                </li>
+                <li><img src="../../../src/images/bar10.jpg" />
+                    <p>Mac Pro</p>
+                </li>
+            </ul>
+        </div>
+        <!--/list-->
+        <div class="scrollBar">
+            <div class="barL"></div>
+            <div class="barM">
+                <div class="bar">
+                    <div class="l"></div>
+                    <div class="r"></div>
+                </div>
+            </div>
+            <div class="barR"></div>
+        </div>
+        <!--/scrollBar-->
+    </div>
+    <!--/box-->
+    <dl id="desc">
+        <dt>功能说明：</dt>
+        <dd>① 拖动滚动条，图片列表缓冲滑动至目标点；</dd>
+        <dd>② 滚动条两端鼠标移入自动滑动；</dd>
+        <dd>③ 滚动条滑动到两端自动更换为停止标识；</dd>
+        <dd>④ 点击滚动条黑色背景区，滚动条及图片列表缓冲滑动至目标点；</dd>
+        <dd>⑤ 支持键盘左右键；</dd>
+        <dd>⑥ 支持鼠标滚轮。</dd>
+        <dd class="ta-r">QQ:21314130, By — Ferris</dd>
+    </dl>
+</body>
+
+</html>

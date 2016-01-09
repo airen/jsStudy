@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>自动播放——幻灯片缓冲效果</title>
+    <style>
+    body,
+    div,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul {
+        list-style-type: none;
+    }
+    
+    body {
+        background: #000;
+        text-align: center;
+        font: 12px/20px Arial;
+    }
+    
+    #box {
+        position: relative;
+        width: 492px;
+        height: 172px;
+        background: #fff;
+        border-radius: 5px;
+        border: 8px solid #fff;
+        margin: 10px auto;
+        cursor: pointer;
+    }
+    
+    #box .list {
+        position: relative;
+        width: 490px;
+        height: 170px;
+        overflow: hidden;
+    }
+    
+    #box .list ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    #box .list li {
+        width: 490px;
+        height: 170px;
+        overflow: hidden;
+    }
+    
+    #box .count {
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+    }
+    
+    #box .count li {
+        color: #fff;
+        float: left;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-right: 5px;
+        overflow: hidden;
+        background: #F90;
+        opacity: 0.7;
+        filter: alpha(opacity=70);
+        border-radius: 20px;
+    }
+    
+    #box .count li.current {
+        color: #fff;
+        opacity: 1;
+        filter: alpha(opacity=100);
+        font-weight: 700;
+        background: #f60;
+    }
+    
+    #tmp {
+        width: 100px;
+        height: 100px;
+        background: red;
+        position: absolute;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var oBox = document.getElementById("box");
+        var oList = oBox.getElementsByTagName("ul")[0];
+        var aImg = oBox.getElementsByTagName("img");
+        var timer = playTimer = null;
+        var index = i = 0;
+        var bOrder = true;
+        var aTmp = [];
+        var aBtn = null;
+
+        //生成数字按钮
+        for (i = 0; i < aImg.length; i++) aTmp.push("<li>" + (i + 1) + "</li>");
+
+        //插入元素
+        var oCount = document.createElement("ul");
+        oCount.className = "count";
+        oCount.innerHTML = aTmp.join("");
+        oBox.appendChild(oCount);
+        aBtn = oBox.getElementsByTagName("ul")[1].getElementsByTagName("li");
+
+        //初始化状态
+        cutover();
+
+        //按钮点击切换
+        for (i = 0; i < aBtn.length; i++) {
+            aBtn[i].index = i;
+            aBtn[i].onmouseover = function() {
+                index = this.index;
+                cutover()
+            }
+        }
+
+        function cutover() {
+            for (i = 0; i < aBtn.length; i++) aBtn[i].className = "";
+            aBtn[index].className = "current";
+            startMove(-(index * aImg[0].offsetHeight))
+        }
+
+        function next() {
+            bOrder ? index++ : index--;
+            index <= 0 && (index = 0, bOrder = true);
+            index >= aBtn.length - 1 && (index = aBtn.length - 1, bOrder = false)
+            cutover()
+        }
+
+        playTimer = setInterval(next, 3000);
+
+        //鼠标移入展示区停止自动播放
+        oBox.onmouseover = function() {
+            clearInterval(playTimer)
+        };
+
+        //鼠标离开展示区开始自动播放
+        oBox.onmouseout = function() {
+            playTimer = setInterval(next, 3000)
+        };
+
+        function startMove(iTarget) {
+            clearInterval(timer);
+            timer = setInterval(function() {
+                doMove(iTarget)
+            }, 30)
+        }
+
+        function doMove(iTarget) {
+            var iSpeed = (iTarget - oList.offsetTop) / 10;
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+            oList.offsetTop == iTarget ? clearInterval(timer) : oList.style.top = oList.offsetTop + iSpeed + "px"
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <div class="list">
+            <ul>
+                <li><img src="../../../src/images/01.jpg" width="490" height="170" /></li>
+                <li><img src="../../../src/images/02.jpg" width="490" height="170" /></li>
+                <li><img src="../../../src/images/03.jpg" width="490" height="170" /></li>
+                <li><img src="../../../src/images/04.jpg" width="490" height="170" /></li>
+                <li><img src="../../../src/images/05.jpg" width="490" height="170" /></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

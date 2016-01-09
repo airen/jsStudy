@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用typeof查看数据类型</title>
+    <style>
+    pre {
+        color: green;
+        padding: 10px 15px;
+        background: #f0f0f0;
+        border: 1px dotted #333;
+        font: 12px/1.5 Courier New;
+    }
+    
+    span {
+        color: #999;
+    }
+    </style>
+</head>
+
+<body>
+    <pre>
+&lt;script type="text/javascript"&gt;
+    alert(typeof 12345);	<span>//输出number</span>
+    alert(typeof "abc");	<span>//输出string</span>
+    alert(typeof document);	<span>//输出object</span>
+&lt;/script&gt;
+</pre>
+    <script>
+    alert("typeof 12345 → " + typeof 12345 + "\
+	  \n\ntypeof \"abc\" → " + typeof "abc" + "\
+	  \n\ntypeof document → " + typeof document);
+    </script>
+</body>
+
+</html>

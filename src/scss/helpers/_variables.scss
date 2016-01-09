@@ -1,0 +1,362 @@
+// font相关
+//-----------------------------------------------------	
+$font-size-root:                 75px !default;
+$font-size-base:                 14px !default;
+$font-size-small:                ceil(($font-size-base * 0.85)) !default; // ~12px
+$font-size-medium:               ceil(($font-size-base * 1.14)) !default; // ~16px
+$font-size-large:                ceil(($font-size-base * 1.25)) !default; // ~18px
+
+
+// $font-size-h1:                   floor(($font-size-base * 2.6)) !default; // ~36px
+// $font-size-h2:                   floor(($font-size-base * 2.15)) !default; // ~30px
+// $font-size-h3:                   ceil(($font-size-base * 1.7)) !default; // ~24px
+// $font-size-h4:                   ceil(($font-size-base * 1.25)) !default; // ~18px
+// $font-size-h5:                   $font-size-base !default;
+// $font-size-h6:                   ceil(($font-size-base * 0.85)) !default; // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        1.428571429 !default; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+$baseFont:                       "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif !default;
+$baseCnFont:                     STHeiTi, Roboto, "Droid Sans Fallback", Arial !default; // ios华文黑体,Android 4.0之后,Android 4.0之前
+$baseEnFont:                     "Helvetica Neue", Helvetica, Roboto, "Droid Sans", Arial !default; // ios4.0+,ios4.0-,Android 4.0+,Android 4.0-
+
+$baseGap:                        10px !default;
+
+
+//color
+$white:                    #fff !default;
+$gray-base:                #000 !default;
+$gray-darker:              #666 !default;
+$gray-dark:                #999 !default;
+$gray:                     #e7e7e7 !default;
+$gray-light:               #eee !default;
+$gray-lighter:             #f8f8f8 !default;
+
+$brand-primary:            #ff5000 !default;
+
+$divider-bg-color:         $gray-lighter !default;
+$divider-border-color:     $gray !default;
+
+//text color
+$text-color:               #051b28 !default;
+$light-text-color:         $gray-darker !default;
+$lighter-text-color:       $gray-dark !default;
+$price-text-color:         $brand-primary !default;
+
+//border color
+$border-color:             #d9d9d9 !default;
+
+$brand-success:            #5cb85c !default;
+$brand-info:               #5bc0de !default;
+$brand-warning:            #f0ad4e !default;
+$brand-danger:             #d9534f !default;
+
+//** Global textual link color.
+$link-color:            $brand-primary !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%) !default;
+//** Link hover decoration.
+$link-hover-decoration: underline !default;
+
+
+//bar
+$bar-height:               1.173333rem !default;
+$bar-tab-height:           1.306667rem !default;
+$bar-bg-color:             $white !default;
+$bar-color:                $text-color !default;
+$bar-border-color:         $border-color !default;
+$bar-tab-color:            #5d636e !default;
+$bar-tab-hover-color:      $brand-primary !default;
+
+//z-layers
+$z-layers: (
+  'bar':                   1000,
+  'dropdown':              1000,
+  'popover':               1060,
+  'tooltip':               1070,
+  'modal': (
+    'base':                1100,
+    'close':               1100,
+    'header':              1050,
+    'footer':              1010
+  ),
+  'default':               1,
+  'below':                 -1,
+) !default;
+
+//icon font
+//from: http://iconfont.cn/repositories/616
+$icon-color:               #5f646e !default;
+$icon-font-path:           "../fonts/iconfont" !default;
+$icon-font-size-base:      14px !default;
+$icon-css-prefix:          icon- !default;
+$icon-family-name:         "iconfont" !default;
+
+$icons:(
+	appreciate:             "\e644",
+	check:                  "\e645",
+	close:                  "\e646",
+	edit:                   "\e649",
+	emoji:                  "\e64a",
+	favorfill:              "\e64b",
+	favor:                  "\e64c",
+	loading:                "\e64f",
+	locationfill:           "\e650",
+	location:               "\e651",
+	phone:                  "\e652",
+	roundcheckfill:         "\e656",
+	roundcheck:             "\e657",
+	roundclosefill:         "\e658",
+	roundclose:             "\e659",
+	roundrightfill:         "\e65a",
+	roundright:             "\e65b",
+	search:                 "\e65c",
+	taxi:                   "\e65d",
+	timefill:               "\e65e",
+	time:                   "\e65f",
+	unfold:                 "\e661",
+	warnfill:               "\e662",
+	warn:                   "\e663",
+	camerafill:             "\e664",
+	camera:                 "\e665",
+	commentfill:            "\e666",
+	comment:                "\e667",
+	likefill:               "\e668",
+	like:                   "\e669",
+	notificationfill:       "\e66a",
+	notification:           "\e66b",
+	order:                  "\e66c",
+	samefill:               "\e66d",
+	same:                   "\e66e",
+	tagfill:                "\e66f",
+	tag:                    "\e670",
+	deliver:                "\e671",
+	evaluate:               "\e672",
+	pay:                    "\e673",
+	send:                   "\e675",
+	shop:                   "\e676",
+	ticket:                 "\e677",
+	wang:                   "\e678",
+	back:                   "\e679",
+	cascades:               "\e67c",
+	discover:               "\e67e",
+	list:                   "\e682",
+	more:                   "\e684",
+	myfill:                 "\e685",
+	my:                     "\e686",
+	scan:                   "\e689",
+	settings:               "\e68a",
+	questionfill:           "\e690",
+	question:               "\e691",
+	shopfill:               "\e697",
+	form:                   "\e699",
+	wangfill:               "\e69a",
+	pic:                    "\e69b",
+	filter:                 "\e69c",
+	footprint:              "\e69d",
+	top:                    "\e69e",
+	pulldown:               "\e69f",
+	pullup:                 "\e6a0",
+	right:                  "\e6a3",
+	refresh:                "\e6a4",
+	moreandroid:            "\e6a5",
+	deletefill:             "\e6a6",
+	refund:                 "\e6ac",
+	cart:                   "\e6af",
+	qrcode:                 "\e6b0",
+	remind:                 "\e6b2",
+	delete:                 "\e6b4",
+	profile:                "\e6b7",
+	home:                   "\e6b8",
+	cartfill:               "\e6b9",
+	discoverfill:           "\e6ba",
+	homefill:               "\e6bb",
+	message:                "\e6bc",
+	addressbook:            "\e6bd",
+	link:                   "\e6bf",
+	lock:                   "\e6c0",
+	unlock:                 "\e6c2",
+	vip:                    "\e6c3",
+	weibo:                  "\e6c4",
+	activity:               "\e6c5",
+	big:                    "\e6c7",
+	friendaddfill:          "\e6c9",
+	friendadd:              "\e6ca",
+	friendfamous:           "\e6cb",
+	friend:                 "\e6cc",
+	goods:                  "\e6cd",
+	selection:              "\e6ce",
+	tmall:                  "\e6cf",
+	attention:              "\e6d0",
+	explore:                "\e6d2",
+	present:                "\e6d3",
+	squarecheckfill:        "\e6d4",
+	square:                 "\e6d5",
+	squarecheck:            "\e6d6",
+	round:                  "\e6d7",
+	roundaddfill:           "\e6d8",
+	roundadd:               "\e6d9",
+	add:                    "\e6da",
+	notificationforbidfill: "\e6db",
+	attentionfill:          "\e6dc",
+	explorefill:            "\e6dd",
+	fold:                   "\e6de",
+	game:                   "\e6df",
+	redpacket:              "\e6e0",
+	selectionfill:          "\e6e1",
+	similar:                "\e6e2",
+	appreciatefill:         "\e6e3",
+	infofill:               "\e6e4",
+	info:                   "\e6e5",
+	tao:                    "\e6e8",
+	mobiletao:              "\e6e9",
+	forwardfill:            "\e6ea",
+	forward:                "\e6eb",
+	rechargefill:           "\e6ec",
+	recharge:               "\e6ed",
+	vipcard:                "\e6ee",
+	voice:                  "\e6ef",
+	voicefill:              "\e6f0",
+	friendfavor:            "\e6f1",
+	wifi:                   "\e6f2",
+	share:                  "\e6f3",
+	wefill:                 "\e6f4",
+	we:                     "\e6f5",
+	lightauto:              "\e6f6",
+	lightforbid:            "\e6f7",
+	lightfill:              "\e6f8",
+	camerarotate:           "\e6f9",
+	light:                  "\e6fa",
+	barcode:                "\e6fb",
+	flashlightclose:        "\e6fc",
+	flashlightopen:         "\e6fd",
+	searchlist:             "\e6fe",
+	service:                "\e6ff",
+	sort:                   "\e700",
+	1212:                   "\e702",
+	down:                   "\e703",
+	mobile:                 "\e704",
+	mobilefill:             "\e705",
+	copy:                   "\e706",
+	countdownfill:          "\e707",
+	countdown:              "\e708",
+	noticefill:             "\e709",
+	notice:                 "\e70a",
+	qiang:                  "\e70b",
+	upstagefill:            "\e70e",
+	upstage:                "\e70f",
+	babyfill:               "\e710",
+	baby:                   "\e711",
+	brandfill:              "\e712",
+	brand:                  "\e713",
+	choicenessfill:         "\e714",
+	choiceness:             "\e715",
+	clothesfill:            "\e716",
+	clothes:                "\e717",
+	creativefill:           "\e718",
+	creative:               "\e719",
+	female:                 "\e71a",
+	keyboard:               "\e71b",
+	male:                   "\e71c",
+	newfill:                "\e71d",
+	new:                    "\e71e",
+	pullleft:               "\e71f",
+	pullright:              "\e720",
+	rankfill:               "\e721",
+	rank:                   "\e722",
+	bad:                    "\e723",
+	cameraadd:              "\e724",
+	focus:                  "\e725",
+	friendfill:             "\e726",
+	cameraaddfill:          "\e727",
+	38:                     "\e728",
+	apps:                   "\e729",
+	paintfill:              "\e72a",
+	paint:                  "\e72b",
+	picfill:                "\e72c",
+	refresharrow:           "\e72d",
+	hotfill:                "\e72e",
+	hot:                    "\e72f",
+	markfill:               "\e730",
+	mark:                   "\e731",
+	presentfill:            "\e732",
+	repeal:                 "\e733"
+) !default;
+
+//border-radius
+
+$sm-radius:                3px !default;
+$md-radius:                5px !default;
+
+//We use this as cursors values for enabling the option of having custom cursors in the whole site's stylesheet
+$cursor-auto-value: auto !default;
+$cursor-crosshair-value: crosshair !default;
+$cursor-default-value: default !default;
+$cursor-disabled-value: not-allowed !default;
+$cursor-pointer-value: pointer !default;
+$cursor-help-value: help !default;
+$cursor-text-value: text !default;
+
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+
+$padding-base-vertical:     0.16rem !default;
+$padding-base-horizontal:   0.32rem !default;
+
+$padding-large-vertical:    0.266667rem !default;
+$padding-large-horizontal:  0.426667rem !default;
+
+$padding-small-vertical:    0.133333rem !default;
+$padding-small-horizontal:  0.266667rem !default;
+
+$padding-xs-vertical:       0.026667rem !default;
+$padding-xs-horizontal:     0.133333rem !default;
+
+$line-height-large:         1.3333333 !default; // extra decimals for Win 8.1 Chrome
+$line-height-small:         1.5 !default;
+
+$border-radius-base:        0.106667rem !default;
+$border-radius-large:       0.16rem !default;
+$border-radius-small:       0.08rem !default;
+
+//Buttons
+$btn-font-weight:          normal !default;
+
+$btn-default-color:        #4e4e4e !default;
+$btn-default-bg:           $white !default;
+$btn-default-border:       #bfbfbf !default;
+
+$btn-primary-color:        $white !default;
+$btn-primary-bg:           $brand-primary !default;
+$btn-primary-border:       darken($brand-primary, 5%) !default;
+
+$btn-success-color:        $white !default;
+$btn-success-bg:           $brand-success !default;
+$btn-success-border:       darken($btn-success-bg, 5%) !default;
+
+$btn-info-color:           $white !default;
+$btn-info-bg:              $brand-info !default;
+$btn-info-border:          darken($btn-info-bg, 5%) !default;
+
+$btn-warning-color:        $white !default;
+$btn-warning-bg:           $brand-warning !default;
+$btn-warning-border:       darken($btn-warning-bg, 5%) !default;
+
+$btn-danger-color:         $white !default;
+$btn-danger-bg:            $brand-danger !default;
+$btn-danger-border:        darken($btn-danger-bg, 5%) !default;
+
+//table views
+$table-view-border-color:  $gray !default;
+$table-view-bg-color:      $white !default;
+$table-view-active:        $gray-light !default;
+
+
+//Labels
+$label-color:             $white !default;
+$label-default-bg:        $gray !default;
+$label-primary-bg:        $brand-primary !default;
+
+

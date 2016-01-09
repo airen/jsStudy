@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>图片列表：鼠标移入/移出改变图片透明度</title>
+    <style>
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    
+    #imgList {
+        width: 700px;
+        overflow: hidden;
+        zoom: 1;
+        border: 1px solid #333;
+        margin: 0 auto;
+        padding: 0 0 10px 10px;
+    }
+    
+    #imgList li {
+        float: left;
+        width: 128px;
+        height: 128px;
+        border: 1px solid #ccc;
+        margin: 10px 10px 0 0;
+    }
+    
+    #imgList li img {
+        float: left;
+        opacity: 0.3;
+        cursor: crosshair;
+        filter: alpha(opacity=30);
+    }
+    
+    #imgList li.current img {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oLi = document.getElementsByTagName("li");
+        for (var i = 0; i < oLi.length; i++) {
+            oLi[i].onmouseover = function() {
+                this.className = "current"
+            };
+            oLi[i].onmouseout = function() {
+                this.className = ""
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <ul id="imgList">
+        <li><img src="../../../src/images/1.jpg" /></li>
+        <li><img src="../../../src/images/2.jpg" /></li>
+        <li><img src="../../../src/images/3.jpg" /></li>
+        <li><img src="../../../src/images/4.jpg" /></li>
+        <li><img src="../../../src/images/5.jpg" /></li>
+        <li><img src="../../../src/images/6.jpg" /></li>
+        <li><img src="../../../src/images/7.jpg" /></li>
+        <li><img src="../../../src/images/8.jpg" /></li>
+        <li><img src="../../../src/images/9.jpg" /></li>
+        <li><img src="../../../src/images/10.jpg" /></li>
+    </ul>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>累加按钮，自加1</title>
+    <style>
+    body {
+        text-align: center;
+    }
+    
+    input {
+        font: 12px arial;
+        cursor: pointer;
+        padding: 0 10px;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var aBtn = document.getElementsByTagName("input")[0];
+        var i = 0;
+
+        aBtn.onclick = function() {
+            aBtn.value = ++i;
+            alert(i)
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <input type="button" value="0" />
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>数组练习：各种数组方法的使用</title>
+    <style>
+    div {
+        color: green;
+        padding: 10px 15px;
+        margin: 12px 0;
+        background: #f0f0f0;
+        border: 1px dotted #333;
+        font: 12px/1.5 Courier New;
+        word-wrap: break-word;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var aDiv = document.getElementsByTagName("div");
+        var aInput = document.getElementsByTagName("input");
+        var i = 0;
+        var bS1 = bS2 = true;
+        var aTmp = [];
+
+        //删除/添加第一项
+        aInput[0].onclick = function() {
+            aTmp = getArray(aDiv[0].innerHTML);
+            bS1 ?
+                //删除第一项， shift()方法
+                (aTmp.shift(), this.value = this.value.replace("删除", "添加"), bS1 = false) :
+                //添加第一项, unshift()方法
+                (aTmp.unshift("January(1)"), this.value = this.value.replace("添加", "删除"), bS1 = true);
+            //输出
+            aDiv[0].innerHTML = aTmp.join()
+        };
+
+
+        //删除/添加最后一项
+        aInput[1].onclick = function() {
+            aTmp = getArray(aDiv[0].innerHTML);
+            bS2 ?
+                //删除最后一项, pop()方法
+                (aTmp.pop(), this.value = this.value.replace("删除", "添加"), bS2 = false) :
+                //添加最后一项, push()方法
+                (aTmp.push("December(12)"), this.value = this.value.replace("添加", "删除"), bS2 = true);
+            //输出
+            aDiv[0].innerHTML = aTmp.join()
+        };
+
+
+        //复制, concat()方法
+        aInput[2].onclick = function() {
+            aTmp = getArray(aDiv[1].innerHTML);
+            //输出
+            aDiv[1].innerHTML = aTmp.concat(aTmp).toString().replace(/\s/g, "")
+        };
+
+
+        //还原, 利用数组的 length 特点
+        aInput[3].onclick = function() {
+            aTmp = getArray(aDiv[1].innerHTML);
+            //设置数组长度
+            aTmp.length = 10;
+            //输出
+            aDiv[1].innerHTML = aTmp.join()
+        };
+
+
+        //第三组数据还原
+        aInput[4].onclick = function() {
+            aTmp = ["red", "green", "blue", "white", "yellow", "black", "brown"];
+            //输出
+            aDiv[2].innerHTML = aTmp.join()
+        };
+
+
+        //删除前三项
+        aInput[5].onclick = function() {
+            aTmp = getArray(aDiv[2].innerHTML);
+            //删除, 0开始, 删除3个
+            aTmp.splice(0, 3);
+            //输出
+            aDiv[2].innerHTML = aTmp.join()
+        };
+
+
+        //删除第二至三项
+        aInput[6].onclick = function() {
+            aTmp = getArray(aDiv[2].innerHTML);
+            //删除, 2开始, 删除2个
+            aTmp.splice(1, 2);
+            //输出
+            aDiv[2].innerHTML = aTmp.join()
+        };
+
+
+        //在第二顶后插入"orange", "purple"
+        aInput[7].onclick = function() {
+            aTmp = getArray(aDiv[2].innerHTML);
+            //插入, 2开始, 插入"orange", "purple"
+            aTmp.splice(1, 0, "orange", "purple");
+            //输出
+            aDiv[2].innerHTML = aTmp.join()
+        };
+
+
+        //替换第二项和第三项
+        aInput[8].onclick = function() {
+            aTmp = getArray(aDiv[2].innerHTML);
+            //插入, 2开始替换
+            aTmp.splice(1, 2, "#009900", "#0000ff");
+            //输出
+            aDiv[2].innerHTML = aTmp.join()
+        };
+
+        //将div中的内容转为数组
+        //str	div对象
+        function getArray(str) {
+            aTmp.length = 0;
+            str = str.split(",");
+            for (var i in str) aTmp.push(str[i]);
+            return aTmp
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div>January(1),February(2),March(3),April(4),May(5),June(6),July(7),Aguest(8),September(9),October(10),November(11),December(12)</div>
+    <input type="button" value="删除January(1)" />
+    <input type="button" value="删除December(12)" />
+    <div>0,1,2,3,4,5,6,7,8,9</div>
+    <input type="button" value="复制" />
+    <input type="button" value="还原" />
+    <div>red,green,blue,white,yellow,black,brown</div>
+    <input type="button" value="还原" />
+    <input type="button" value="删除前三项" />
+    <input type="button" value="删除第二至三项" />
+    <input type="button" value="在第二项后插入(orange, purple)" />
+    <input type="button" value="替换第二项和第三项" />
+</body>
+
+</html>

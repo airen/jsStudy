@@ -1,0 +1,9 @@
+//https://gist.github.com/airen/d7f8ad25c982750dcb86
+
+@mixin float($direction: left,$support-for-ie:false){
+
+	float: unquote($direction);
+	@if $support-for-ie{
+		_display: inline;
+	}
+}

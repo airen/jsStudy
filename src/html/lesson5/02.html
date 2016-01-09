@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>显示单击的坐标</title>
+    <style>
+    pre {
+        color: green;
+        padding: 10px 15px;
+        background: #f0f0f0;
+        border: 1px dotted #333;
+        font: 12px/1.5 Courier New;
+    }
+    
+    span {
+        color: #999;
+    }
+    </style>
+    <script type="text/javascript">
+    document.onclick = function(event) {
+        var event = event || window.event;
+        alert("坐标：[" + event.clientX + ", " + event.clientY + "]")
+    }
+    </script>
+</head>
+
+<body>
+    <pre>
+&lt;script type="text/javascript"&gt;
+    var event = event || window.event;
+    alert("坐标：[" + event.clientX + ", " + event.clientY + "]")
+&lt;/script&gt;
+</pre>
+</body>
+
+</html>

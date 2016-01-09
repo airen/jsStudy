@@ -1,0 +1,48 @@
+@mixin font-face($font-family,$file-path,$font-weight: normal,$font-style: normal,$asset-pipeline:false){
+    @font-face {
+        font: {
+            family: $font-family;
+            weight: $font-weight;
+            style: $font-style;
+        }
+
+        @if $asset-pipeline == true {
+            src: font-url("#{$file-path}.eot");
+            src: font-url("#{$file-path}.eot?#iefix") format("embedded-opentype"),
+                 font-url("#{$file-path}.woff") format("woff"),
+                 font-url("#{$file-path}.ttf") format("truetype"),
+                 font-url("#{$file-path}.svg##{$font-family}") format("svg");
+        }
+        @else {
+            src: url("#{$file-path}.eot");
+            src: url("#{$file-path}.eot?#iefix") format("embedded-opentype"),
+                 url("#{$file-path}.woff") format("woff"),
+                 url("#{$file-path}.ttf") format("truetype"),
+                 url("#{$file-path}.svg##{$font-family}") format("svg");    
+        }
+    }
+} 
+
+@mixin icon($position: "before",$styles:true,$icon:false) {
+    &:#{$position} {
+
+        @if $icon {
+            content: map-get($icons, $icon);
+        }
+        @if $styles {
+            @extend %icon-base-style;
+        }
+        @content;
+    }
+}
+
+@mixin get-icons($All-icons:false) {
+    @if $All-icons {
+        @each $icon in $icons {
+            $name: nth($icon, 1);
+            .#{$icon-css-prefix}#{$name}{
+                @include icon("before",false,$name);
+            }
+        }
+    }
+}

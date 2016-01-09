@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>倒计时时钟</title>
+    <style>
+    body,
+    div {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        color: #fff;
+        font: 16px/1.5 \5fae\8f6f\96c5\9ed1;
+    }
+    
+    #countdown {
+        width: 300px;
+        text-align: center;
+        background: #1a1a1a;
+        margin: 10px auto;
+        padding: 20px 0;
+    }
+    
+    input {
+        border: 0;
+        width: 283px;
+        height: 50px;
+        cursor: pointer;
+        margin-top: 20px;
+        background: url(../../../src/images/btn-1.png) no-repeat;
+    }
+    
+    input.cancel {
+        background-position: 0 -50px;
+    }
+    
+    span {
+        color: #000;
+        width: 80px;
+        line-height: 2;
+        background: #fbfbfb;
+        border: 2px solid #b4b4b4;
+        margin: 0 10px;
+        padding: 0 10px;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oCountDown = document.getElementById("countdown");
+        var aInput = oCountDown.getElementsByTagName("input")[0];
+        var timer = null;
+
+        aInput.onclick = function() {
+            this.className == "" ? (timer = setInterval(updateTime, 1000), updateTime()) : (clearInterval(timer));
+            this.className = this.className == '' ? "cancel" : '';
+        };
+
+        function format(a) {
+            return a.toString().replace(/^(\d)$/, '0$1')
+        }
+
+        function updateTime() {
+            var aSpan = oCountDown.getElementsByTagName("span");
+            var oRemain = aSpan[0].innerHTML.replace(/^0/, '') * 60 + parseInt(aSpan[1].innerHTML.replace(/^0/, ''));
+            if (oRemain <= 0) {
+                clearInterval(timer);
+                return
+            }
+            oRemain--;
+            aSpan[0].innerHTML = format(parseInt(oRemain / 60));
+            oRemain %= 60;
+            aSpan[1].innerHTML = format(parseInt(oRemain));
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="countdown">
+        <span>01</span>分钟<span>40</span>秒
+        <input type="button" value="" />
+    </div>
+</body>
+
+</html>

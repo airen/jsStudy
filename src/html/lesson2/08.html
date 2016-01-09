@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>简易JS年历</title>
+    <style>
+    body,
+    ul,
+    li,
+    h2,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font: 12px/1.5 Tahoma;
+    }
+    
+    #calendar {
+        width: 248px;
+        overflow: hidden;
+        zoom: 1;
+        background: #eaeaea;
+        margin: 10px auto;
+        padding: 0 0 10px 10px;
+    }
+    
+    #calendar ul {
+        overflow: hidden;
+        zoom: 1;
+    }
+    
+    #calendar li {
+        color: #fff;
+        float: left;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        background: #424242;
+        line-height: 1.3;
+        list-style-type: none;
+        border: 1px solid #424242;
+        margin: 10px 10px 0 0;
+        padding: 5px;
+    }
+    
+    #calendar li.current {
+        color: #F69;
+        background: #fff;
+    }
+    
+    #calendar li strong {
+        display: block;
+        font-size: 18px;
+    }
+    
+    #msg {
+        color: #666;
+        background: #f1f1f1;
+        border: 1px solid #fff;
+        margin: 10px 10px 0 0;
+        padding: 5px;
+    }
+    
+    #msg h2 {
+        font-size: 14px;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oLi = document.getElementById("calendar").getElementsByTagName("li");
+        var oMsg = document.getElementById("msg");
+        var oP = oMsg.getElementsByTagName("p")[0];
+        var oStrong = oMsg.getElementsByTagName("strong")[0];
+        var oArray = [
+            "元旦：1月1日至3日放假三天。",
+            "春节：2月2日至8日放假7天。",
+            "妇女节：3月8日妇女节，与我无关。",
+            "清明节：4月3日至5日放假3天",
+            "劳动节：4月30日至5月2日放假3天。",
+            "端午节：6月4日至6日放假3天。",
+            "小暑：7月7日小暑。不放假。",
+            "七夕节：8月6日七夕节。不放假。",
+            "中秋节：9月10日至12日放假3天。",
+            "国庆节：10月1日至7日放假7天。",
+            "立冬：11月8日立冬。不放假。",
+            "艾滋病日:12月1日<br />废除奴隶制国际日:12月2日。"
+        ];
+        for (var i = 0; i < oLi.length; i++) {
+            oLi[i].index = i;
+            oLi[i].onmouseover = function() {
+                for (var n = 0; n < oLi.length; n++) oLi[n].className = "";
+                this.className = "current";
+                oP.innerHTML = oArray[this.index];
+                oStrong.innerHTML = this.index + 1;
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="calendar">
+        <ul>
+            <li><strong>1</strong>JAN</li>
+            <li><strong>2</strong>FER</li>
+            <li><strong>3</strong>MAR</li>
+            <li><strong>4</strong>APR</li>
+            <li><strong>5</strong>MAY</li>
+            <li class="current"><strong>6</strong>JUN</li>
+            <li><strong>7</strong>JUL</li>
+            <li><strong>8</strong>AUG</li>
+            <li><strong>9</strong>SEP</li>
+            <li><strong>10</strong>OCT</li>
+            <li><strong>11</strong>NOV</li>
+            <li><strong>12</strong>DEC</li>
+        </ul>
+        <div id="msg">
+            <h2>
+            <strong>6</strong>
+            月节日
+        </h2>
+            <p>端午节：6月4日至6日放假3天。</p>
+        </div>
+    </div>
+</body>
+
+</html>

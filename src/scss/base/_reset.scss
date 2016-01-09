@@ -1,0 +1,292 @@
+// sanitize.scss: https://github.com/jonathantneal/sanitize.css/blob/master/sanitize.scss
+// normalize.scss: https://github.com/kristerkari/normalize.scss/blob/master/_normalize.scss
+
+// Define variables
+
+$root-box-sizing: border-box !default;
+$root-cursor: default !default;
+$root-font-family: $baseFont !default;
+$root-font-size: $font-size-base !default;
+$root-line-height: $line-height-base !default;
+$root-text-rendering: optimizeLegibility !default;
+
+$anchor-text-decoration: none !default;
+$form-element-background-color: transparent !default;
+$form-element-min-height: if(unitless($root-line-height), #{$root-line-height}em, if(unit($root-line-height) != '%', $root-line-height, null)) !default;
+$media-element-vertical-align: middle !default;
+$monospace-font-family: monospace !default;
+$nav-list-style: none !default;
+$small-font-size: $font-size-small !default;
+$table-border-collapse: collapse !default;
+$table-border-spacing: 0 !default;
+$textarea-resize: vertical !default;
+
+:root {
+	-ms-overflow-style: -ms-autohiding-scrollbar; // IE11+
+	overflow-y: scroll; // All browsers without overlaying scrollbars
+	text-size-adjust: 100%; // iOS 8+
+}
+
+//details: // Firefox 36+, Internet Explorer 11+, Windows Phone 8.1+
+//main:  Android 4.3-, Internet Explorer 11+, Windows Phone 8.1+
+//summary: // Firefox 36+, Internet Explorer 11+, Windows Phone 8.1+
+
+details,main,summary {
+	display: block; 
+}
+
+//template: Android 4.3-, Internet Explorer 11+, iOS 7-, Safari 7-, Windows Phone 8.1+
+//[hidden]:Internet Explorer 10-
+
+template, [hidden] {
+	display: none;
+}
+audio:not([controls]){
+	display: none; //Chrome 40+, iOS 8+, Safari 8+
+	height: 0; //Remove excess height in iOS5 devices
+}
+
+input {
+	&[type="number"] {
+		width: auto; // Firefox 36+
+	}
+
+	&[type="search"] {
+		-webkit-appearance: none; // Safari 8+
+
+		&::-webkit-search-cancel-button,
+		&::-webkit-search-decoration {
+			-webkit-appearance: none; // Safari 8+
+		}
+	}
+}
+
+
+
+pre {
+	overflow: auto; // Internet Explorer 11+
+}
+
+progress {
+	display: inline-block; // Internet Explorer 11+, Windows Phone 8.1+
+}
+
+small {
+	font-size: $small-font-size; // All browsers
+}
+
+
+textarea {
+	overflow: auto; // Internet Explorer 11+
+}
+
+
+[unselectable] {
+	user-select: none; // Android 4.4+, Chrome 40+, Firefox 36+, iOS 8+, Safari 8+
+}
+
+
+/*
+ * Universal inheritance
+ */
+
+*,
+::before,
+::after,
+:before,
+:after {
+	box-sizing: inherit;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+* {
+	font-size: inherit;
+	line-height: inherit;
+}
+
+::before,
+::after,
+:before,
+:after {
+	text-decoration: inherit;
+	vertical-align: inherit;
+}
+
+
+
+//Opinionated defaults
+
+
+// specify solid border style of all elements
+
+*,
+::before,
+::after,
+:before,
+:after {
+	border-style: solid;
+	border-width: 0;
+}
+
+// remove margin and padding of all elements
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+// specify the root styles of the document
+
+:root {
+	box-sizing: $root-box-sizing;
+	cursor: $root-cursor;
+	font: #{$root-font-size}/#{$root-line-height} $root-font-family;
+	text-rendering: $root-text-rendering;
+}
+
+// specify the text decoration of anchors
+
+a {
+	text-decoration: $anchor-text-decoration;
+}
+
+// specify media element style
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+	vertical-align: $media-element-vertical-align;
+}
+
+// specify the background color of form elements
+
+button,
+input,
+select,
+textarea {
+	background-color: $form-element-background-color;
+}
+
+// specify inheritance of form elements
+
+button,
+input,
+select,
+textarea {
+	color: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	min-height: $form-element-min-height; // specify the minimum height of form elements
+}
+
+// 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+//    and `video` controls
+// 2. Corrects inability to style clickable 'input' types in iOS
+// 3. Improves usability and consistency of cursor style between image-type
+//    'input' and others
+//    Known issue: inner spacing remains in IE6
+
+button,
+html input[type="button"], // 1
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; // 2
+    cursor: pointer; // 3
+}
+
+// Re-set default cursor for disabled elements
+
+button[disabled],
+input[disabled] {
+    cursor: default;
+}
+
+input {
+    // 1. Addresses appearance set to searchfield in S5, Chrome
+    // 2. Addresses box-sizing set to border-box in S5, Chrome (include -moz to future-proof)
+    &[type="search"] {
+        -webkit-appearance: none; // 1
+        // -webkit-box-sizing: content-box; // 2
+        // box-sizing: content-box;
+        
+    	// Remove inner padding and search cancel button in Safari 5 and Chrome
+        // on OS X.
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-decoration {
+            -webkit-appearance: none;
+        }
+    }
+    
+    // 1. Address box sizing set to `content-box` in IE 8/9/10.
+    // 2. Remove excess padding in IE 8/9/10.
+    &[type="checkbox"],
+    &[type="radio"] {
+    	box-sizing: border-box; // 1
+    	padding: 0; // 2
+    }
+}
+
+// specify the font family of code elements
+
+code,
+kbd,
+pre,
+samp {
+	font-family: $monospace-font-family, monospace;
+}
+
+// specify the list style of nav lists
+
+nav ol,
+nav ul {
+	list-style: $nav-list-style;
+}
+
+// style select like a standard input
+
+select {
+	-moz-appearance: none;    // Firefox 36+
+	-webkit-appearance: none; // Chrome 41+
+
+	&::-ms-expand {
+		display: none;        // Internet Explorer 11+
+	}
+
+	&::-ms-value {
+		color: currentColor;  // Internet Explorer 11+
+	}
+}
+
+// specify the border styles of tables
+
+table {
+	border-collapse: $table-border-collapse;
+	border-spacing: $table-border-spacing;
+}
+
+// specify textarea resizability
+
+textarea {
+	resize: $textarea-resize;
+}
+
+img {
+	border: 0;
+}
+
+// hide content from screens but not screenreaders
+
+@media screen {
+	[hidden~="screen"] {
+		display: inherit;
+	}
+
+	[hidden~="screen"]:not(:active):not(:focus):not(:target) {
+		clip: rect(0 0 0 0) !important;
+		position: absolute !important;
+	}
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>鼠标移过，改变图片路径</title>
+    <style>
+    body,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #000;
+    }
+    
+    img {
+        border: 0;
+        border-radius: 3px;
+    }
+    
+    ul {
+        list-style-type: none;
+    }
+    
+    #box {
+        width: 212px;
+        border: 5px solid #fff;
+        overflow: hidden;
+        zoom: 1;
+        background: #fff;
+        border-radius: 5px;
+        margin: 10px auto;
+        padding: 0 0 3px 3px;
+    }
+    
+    #box li,
+    #box li img {
+        float: left;
+        width: 50px;
+        height: 50px;
+    }
+    
+    #box li {
+        margin: 3px 3px 0 0;
+    }
+    
+    #box li.first {
+        position: relative;
+    }
+    
+    #box li.first,
+    #box li.first img {
+        width: 156px;
+        height: 156px;
+    }
+    
+    #box li.first div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 156px;
+        height: 156px;
+        display: none;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+        background: #fff url(../../../src/images/loading.gif) 50% 50% no-repeat;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var oImg = document.getElementById("box").getElementsByTagName("img");
+        var oDiv = document.getElementsByTagName("div")[0];
+        for (var i = 1; i < oImg.length; i++) {
+            oImg[i].onmouseover = function() {
+                var img = new Image();
+                img.src = oImg[0].src = this.src.replace(/small/, "big");
+                oDiv.style.display = "block";
+                img.complete ? oDiv.style.display = "none" : (oImg[0].onload = function() {
+                    oDiv.style.display = "none"
+                })
+            }
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <ul id="box">
+        <li class="first"><img src="../../../src/images/big_1.jpg">
+            <div></div>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_1.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_2.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_3.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_4.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_5.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_6.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_7.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_8.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_9.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_10.jpg"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="../../../src/images/small_11.jpg"></a>
+        </li>
+    </ul>
+</body>
+
+</html>

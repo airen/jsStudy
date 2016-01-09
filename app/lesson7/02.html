@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>带Loading效果的图片切换</title>
+    <style type="text/css">
+    body,
+    div,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+    body {
+        font: 12px/1.5 \5fae\8f6f\96c5\9ed1;
+        background: #000;
+    }
+    
+    #big {
+        position: relative;
+        width: 800px;
+        height: auto!important;
+        height: 400px;
+        min-height: 400px;
+        margin: 20px auto;
+        text-align: center;
+    }
+    
+    #title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #000;
+        color: #fff;
+        opacity: 0.7;
+        filter: alpha(opacity=70);
+        font-size: 20px;
+        height: 50px;
+    }
+    
+    #title span {
+        padding: 0 5px;
+        line-height: 50px;
+        display: block;
+    }
+    
+    #big.loading {
+        background: url(../../../src/images/loading.gif) 50% 50% no-repeat;
+    }
+    
+    #masks_L,
+    #masks_R {
+        position: absolute;
+        top: 0;
+        width: 400px;
+        height: 100%;
+        cursor: pointer;
+        background: #f0f0f0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    
+    #masks_L {
+        left: 0;
+    }
+    
+    #masks_R {
+        right: 0;
+    }
+    
+    #btn_L,
+    #btn_R {
+        position: absolute;
+        top: 50%;
+        margin-top: -40px;
+        width: 39px;
+        height: 80px;
+        overflow: hidden;
+        cursor: pointer;
+        text-indent: -9999px;
+        background: url(../../../src/images/btn-slider.png) no-repeat;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    
+    #btn_L {
+        left: 10px;
+        background-position: 0 0;
+    }
+    
+    #btn_R {
+        right: 10px;
+        background-position: -39px 0;
+    }
+    </style>
+    <script type="text/javascript">
+    function getStyle(obj, attr) {
+        return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, null)[attr]
+    }
+    window.onload = function() {
+        var oBig = document.getElementById("big");
+        var oMasksL = document.getElementById("masks_L");
+        var oMasksR = document.getElementById("masks_R");
+        var oBtnL = document.getElementById("btn_L");
+        var oBtnR = document.getElementById("btn_R");
+        var oTitle = document.getElementById("title");
+        var oSpan = oTitle.getElementsByTagName("span")[0];
+        var iNow = 0;
+        var aData = [{
+            "imgSrc": "http://img1.gtimg.com/news/pics/hv1/106/238/825/53706421.jpg",
+            "title": "7月26日，吊车将事故现场的车头残片吊至大型运输车辆上。"
+        }, {
+            "imgSrc": "http://img1.gtimg.com/news/pics/hv1/105/238/825/53706420.jpg",
+            "title": "7月26日，一辆大卡车准备驶离事故现场。"
+        }, {
+            "imgSrc": "http://img1.gtimg.com/news/pics/hv1/101/238/825/53706416.jpg",
+            "title": "7月26日，工人在给最后一节车厢盖上彩条布，准备运离现场。"
+        }, {
+            "imgSrc": "http://img1.gtimg.com/news/pics/hv1/99/238/825/53706414.jpg",
+            "title": "7月26日，一名工人在事故现场最后一节车厢上作业。"
+        }, {
+            "imgSrc": "http://img1.gtimg.com/news/pics/hv1/100/238/825/53706415.jpg",
+            "title": "7月26日，工人在给最后一节车厢盖上彩条布，准备运离现场。"
+        }];
+
+        oMasksL.onmouseover = oBtnL.onmouseover = function() {
+            startMove(oBtnL, "opacity", 100)
+        };
+        oMasksL.onmouseout = oBtnL.onmouseout = function() {
+            startMove(oBtnL, "opacity", 0)
+        };
+
+        oMasksR.onmouseover = oBtnR.onmouseover = function() {
+            startMove(oBtnR, "opacity", 100)
+        };
+        oMasksR.onmouseout = oBtnR.onmouseout = function() {
+            startMove(oBtnR, "opacity", 0)
+        };
+
+        function startMove(obj, attr, iTarget, fnEnd) {
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function() {
+                doMove(obj, attr, iTarget, fnEnd)
+            }, 30)
+        }
+
+        function doMove(obj, attr, iTarget, fnEnd) {
+            var iCur = parseFloat(getStyle(obj, attr));
+            if (attr == "opacity") {
+                iCur = parseInt(iCur * 100)
+            }
+            var iSpeed = (iTarget - iCur) / 5;
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+
+            if (iTarget == iCur) {
+                clearInterval(obj.timer);
+                fnEnd && fnEnd();
+            } else {
+                if (attr == "opacity") {
+                    obj.style.filter = "alpha(opacity = " + (iCur + iSpeed) + ")";
+                    obj.style.opacity = (iCur + iSpeed) / 100;
+                } else {
+                    obj.style[attr] = iCur + iSpeed + "px";
+                }
+            }
+        }
+
+        oBtnL.onclick = function() {
+
+            if (iNow <= 0) {
+                alert("前面没有图片了！")
+                return;
+            }
+            iNow--;
+            loadImg();
+        };
+
+        oBtnR.onclick = function() {
+            if (iNow >= aData.length - 1) {
+                alert("这是最后一张图片了！")
+                return;
+            }
+            iNow++;
+            loadImg();
+        };
+
+        loadImg();
+
+        function loadImg() {
+            oBig.className = "loading";
+            oSpan.style.opacity = oTitle.style.height = 0;
+            oSpan.style.filter = "alpha(opacity=0)";
+            var oImg = oBig.getElementsByTagName("img");
+            oImg[0] && oBig.removeChild(oImg[0]);
+            var oTemp = document.createElement("img");
+            var oNewImg = new Image();
+            oNewImg.onload = function() {
+                oBig.className = "";
+                oTemp.src = this.src;
+                oBig.appendChild(oTemp);
+                oTemp.style.width = (oTemp.offsetWidth > 800 ? 800 : oTemp.offsetWidth) + "px";
+                oBig.style.height = oTemp.style.height = oTemp.offsetHeight * oTemp.offsetWidth / oTemp.offsetWidth + "px";
+                oSpan.innerHTML = aData[iNow].title;
+                startMove(oTitle, "height", 50, function() {
+                    startMove(oTitle.childNodes[0], "opacity", 100)
+                })
+            };
+            oNewImg.src = aData[iNow].imgSrc
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <div id="big">
+        <div id="masks_L"></div>
+        <div id="masks_R"></div>
+        <div id="btn_L">左</div>
+        <div id="btn_R">右</div>
+        <div id="title"><span></span></div>
+    </div>
+</body>
+
+</html>

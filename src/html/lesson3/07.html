@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+    body,
+    div,
+    p,
+    ul,
+    li,
+    input {
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul {
+        list-style-type: none;
+    }
+    
+    a {
+        color: #fff;
+        outline: none;
+        text-decoration: none;
+    }
+    
+    body {
+        font: 700 24px/1.5 Arial;
+    }
+    
+    #calc {
+        position: relative;
+        width: 300px;
+        background: #000;
+        margin: 10px auto;
+    }
+    
+    #calc p {
+        color: #fff;
+        text-align: right;
+        font: 12px/20px Arial;
+        padding: 0 5px;
+    }
+    
+    #calc .f-text {
+        border: 0;
+        width: 290px;
+        height: 84px;
+        text-align: right;
+        font: 700 50px/84px Arial;
+        background: url(../../../src/images/inputBg.jpg) repeat-x;
+        padding: 0 5px;
+    }
+    
+    #calc ul {
+        position: relative;
+        overflow: hidden;
+        zoom: 1;
+        background: url(../../../src/images/bg.jpg);
+        padding: 0 0 17px 8px;
+    }
+    
+    #calc ul li {
+        float: left;
+        width: 63px;
+        height: 41px;
+        margin: 17px 10px 0 0;
+    }
+    
+    #calc ul li a {
+        display: block;
+        width: 63px;
+        height: 41px;
+        line-height: 41px;
+        text-align: center;
+        background: url(../../../src/images/btn.png) no-repeat;
+    }
+    
+    #calc ul li a:hover {
+        background-position: -63px 0;
+    }
+    
+    #calc ul li.btn-1 a {
+        background-position: 0 -41px;
+    }
+    
+    #calc ul li.btn-1 a:hover {
+        background-position: -63px -41px;
+    }
+    
+    #calc ul li.btn-2 {
+        position: absolute;
+        top: 174px;
+        right: 0;
+        height: 99px;
+    }
+    
+    #calc ul li.btn-2 a {
+        height: 99px;
+        line-height: 99px;
+        background-position: 0 -164px;
+    }
+    
+    #calc ul li.btn-2 a:hover {
+        background-position: -63px -164px;
+    }
+    
+    #calc ul li.btn-3 {
+        width: 136px;
+    }
+    
+    #calc ul li.btn-3 a {
+        width: 136px;
+        background-position: 0 -82px;
+    }
+    
+    #calc ul li.btn-3 a:hover {
+        background-position: 0 -123px;
+    }
+    
+    #formula {
+        position: absolute;
+        top: 20px;
+        background: none;
+        border: 0;
+        font: 700 12px/1.5 Arial;
+        width: 280px;
+        padding: 3px 15px 0 5px;
+        text-align: right;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oCalc = document.getElementById("calc");
+        var aA = oCalc.getElementsByTagName("a");
+        var aInput = oCalc.getElementsByTagName("input")[0];
+        var oFormula = document.getElementById("formula");
+        var s = false;
+        var i = 0;
+
+        for (i = 0; i < aA.length; i++) {
+            aA[i].onfocus = function() {
+                this.blur()
+            };
+            aA[i].onclick = function() {
+                switch (this.innerHTML) {
+                    case "c":
+                        aInput.value = 0;
+                        oFormula.value = "";
+                        break;
+                    case "%":
+                        count("%")
+                        break;
+                    case "÷":
+                        count("/")
+                        break;
+                    case "×":
+                        count("*")
+                        break;
+                    case "-":
+                        count("-")
+                        break;
+                    case "+":
+                        count("+")
+                        break;
+                    case "=":
+                        s || (oFormula.value += aInput.value);
+                        aInput.value = eval(oFormula.value.replace(/\%\/\*\-\+/, ''));
+                        aInput.value = aInput.value.substr(0, 10).replace("NaN", 0);
+                        s = true;
+                        break;
+                    case ".":
+                        if (aInput.value.search(/[\.\%\/\*\-\+]/) != -1)
+                            break;
+                    default:
+                        s && (aInput.value = 0, oFormula.value = "", s = false);
+                        aInput.value.length < 10 && (aInput.value = (aInput.value + this.innerHTML).replace(/^[0\%\/\*\-\+](\d)/, "$1"));
+                }
+            }
+        }
+
+        function count(a) {
+
+            if (s) {
+                oFormula.value = aInput.value + a;
+                aInput.value = a;
+                s = false;
+            } else {
+                /[\%\/\*\-\+]$/.test(aInput.value) || (oFormula.value += aInput.value);
+                aInput.value = a;
+                /[\%\/\*\-\+]$/.test(oFormula.value) || (oFormula.value += aInput.value);
+                oFormula.value = oFormula.value.slice(-1) != a ? oFormula.value.replace(/.$/, a) : oFormula.value
+            }
+        }
+    }
+    </script>
+    <title>网页计算器</title>
+</head>
+
+<body>
+    <div id="calc">
+        <p>By - Ferris QQ:21314130</p>
+        <input class="f-text" type="text" readonly="readonly" maxlength="9" value="0" />
+        <ul>
+            <li class="btn-1"><a href="javascript:void(0)">c</a></li>
+            <li class="btn-1"><a href="javascript:void(0)">%</a></li>
+            <li class="btn-1"><a href="javascript:void(0)">÷</a></li>
+            <li class="btn-1"><a href="javascript:void(0)">×</a></li>
+            <li><a href="javascript:void(0)">7</a></li>
+            <li><a href="javascript:void(0)">8</a></li>
+            <li><a href="javascript:void(0)">9</a></li>
+            <li class="btn-1"><a href="javascript:void(0)">-</a></li>
+            <li><a href="javascript:void(0)">4</a></li>
+            <li><a href="javascript:void(0)">5</a></li>
+            <li><a href="javascript:void(0)">6</a></li>
+            <li class="btn-1"><a href="javascript:void(0)">+</a></li>
+            <li><a href="javascript:void(0)">1</a></li>
+            <li><a href="javascript:void(0)">2</a></li>
+            <li><a href="javascript:void(0)">3</a></li>
+            <li class="btn-2"><a href="javascript:void(0)">=</a></li>
+            <li class="btn-3"><a href="javascript:void(0)">0</a></li>
+            <li><a href="javascript:void(0)">.</a></li>
+        </ul>
+        <input id="formula" type="text" readonly="readonly" value="" />
+    </div>
+</body>
+
+</html>

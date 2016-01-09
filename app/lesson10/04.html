@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>照片墙一多实例演示（面向对象版）</title>
+    <style type="text/css">
+    body,
+    div,
+    h2,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font: 12px/1.5 Arail;
+    }
+    
+    .box {
+        width: 860px;
+        margin: 10px auto;
+        background: #eee;
+        border: 1px solid #b8b8b8;
+        overflow: hidden
+    }
+    
+    .title {
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+        padding: 0 15px 0 35px;
+        border-bottom: 1px solid #b8b8b8;
+        background: #fafafa url(../../../src/images/photoico.gif) 5px 50% no-repeat;
+    }
+    
+    .title span {
+        float: left;
+    }
+    
+    .title a {
+        float: right;
+        color: #06f;
+        outline: none;
+    }
+    
+    .title a:hover {
+        color: red;
+    }
+    
+    .box ul {
+        float: left;
+        padding: 0 15px 15px 0;
+    }
+    
+    .box li {
+        float: left;
+        width: 140px;
+        height: 105px;
+        padding: 6px;
+        background: #fff;
+        border: 1px solid #c3c3c3;
+        display: inline;
+        margin: 15px 0 0 15px;
+        list-style: none;
+    }
+    
+    .box li img {
+        float: left;
+        width: 140px;
+        height: 105px;
+    }
+    
+    .box li.hig {
+        padding: 5px;
+        border: 2px dashed #f30;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+    </style>
+    <script type="text/javascript">
+    //获取ID
+    var $ = function(id) {
+        return typeof id === "string" ? document.getElementById(id) : id
+    };
+
+    //获取tagName
+    var $$ = function(tagName, oParent) {
+        return (oParent || document).getElementsByTagName(tagName)
+    };
+
+    //获取class
+    var $$$ = function(sClass, oParent) {
+        var aClass = [],
+            i = 0,
+            reClass = new RegExp("(\\s|^)" + sClass + "($|\\s)"),
+            aElement = $$("*", oParent);
+        for (i = 0; i < aElement.length; i++) reClass.test(aElement[i].className) && aClass.push(aElement[i]);
+        return aClass
+    };
+
+    //获取元素位置
+    function getPos(obj) {
+        var iTop = obj.offsetTop;
+        var iLeft = obj.offsetLeft;
+        while (obj.offsetParent) {
+            iTop += obj.offsetParent.offsetTop;
+            iLeft += obj.offsetParent.offsetLeft;
+            obj = obj.offsetParent;
+        }
+        return {
+            top: iTop,
+            left: iLeft
+        }
+    };
+
+    //创建照片墙对象
+    var PhotoWall = function() {
+        this.initialize.apply(this, arguments)
+    };
+
+    PhotoWall.prototype = {
+        initialize: function(obj, aData) {
+            var oThis = this;
+            this.oParent = $(obj);
+            this.oUl = $$("ul", this.oParent)[0];
+            this.oBtn = $$("a", this.oParent)[0];
+            this.zIndex = 1;
+            this.aPos = [];
+            this.aData = aData;
+            this.dom = document.documentElement || document.body;
+            this.create();
+            this.oBtn.onclick = function() {
+                oThis.randomOrder()
+            }
+        },
+        create: function() {
+            var aFrag = document.createDocumentFragment();
+            var i = 0;
+            for (i = 0; i < this.aData.length; i++) {
+                var oLi = document.createElement("li");
+                var oImg = document.createElement("img");
+                oImg.src = this.aData[i];
+                oLi.appendChild(oImg);
+                aFrag.appendChild(oLi)
+            }
+            this.oUl.appendChild(aFrag);
+            this.aLi = $$("li", this.oParent);
+            this.changeLayout()
+        },
+        changeLayout: function() {
+            var i = 0;
+            this.oParent.style.height = this.oParent.offsetHeight - 2 + "px";
+            this.aPos.length = 0;
+            for (i = 0; i < this.aLi.length; i++) this.aLi[i].style.cssText = "";
+            for (i = 0; i < this.aLi.length; i++) {
+                this.aLi[i].index = i;
+                this.aLi[i].style.top = getPos(this.aLi[i]).top + "px";
+                this.aLi[i].style.left = getPos(this.aLi[i]).left + "px";
+                this.aPos.push({
+                    left: getPos(this.aLi[i]).left,
+                    top: getPos(this.aLi[i]).top
+                })
+            }
+            for (i = 0; i < this.aLi.length; i++) {
+                this.aLi[i].style.position = "absolute";
+                this.aLi[i].style.margin = "0";
+                this.drag(this.aLi[i])
+            }
+        },
+        drag: function(obj, handle) {
+            var oThis = this;
+            var handle = handle || obj;
+            handle.style.cursor = "move";
+            handle.onmousedown = function(event) {
+                var event = event || window.event;
+                var disX = event.clientX - this.offsetLeft;
+                var disY = event.clientY - this.offsetTop;
+                var oNear = null;
+                handle.style.zIndex = oThis.zIndex++;
+
+                document.onmousemove = function(event) {
+                    var event = event || window.event;
+                    var iL = event.clientX - disX;
+                    var iT = event.clientY - disY;
+                    var maxL = Math.max(oThis.dom.clientWidth, oThis.dom.scrollWidth) - handle.offsetWidth;
+                    var maxT = Math.max(oThis.dom.clientHeight, oThis.dom.scrollHeight) - handle.offsetHeight;
+
+                    iL < 0 && (iL = 0);
+                    iT < 0 && (iT = 0);
+                    iL > maxL && (iL = maxL);
+                    iT > maxT && (iT = maxT);
+
+                    handle.style.left = iL + "px";
+                    handle.style.top = iT + "px";
+
+                    oNear = oThis.findNearest(obj);
+
+                    for (var i = 0; i < oThis.aLi.length; i++) oThis.aLi[i].className = "";
+
+                    oNear && (oNear.className = "hig");
+
+                    return false
+                };
+                document.onmouseup = function() {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+
+                    if (oNear) {
+                        handle.index = [handle.index, oNear.index];
+                        oNear.index = handle.index[0];
+                        handle.index = handle.index[1];
+                        oNear.style.zIndex = oThis.zIndex++;
+                        oThis.doMove(handle, oThis.aPos[handle.index]);
+                        oThis.doMove(oNear, oThis.aPos[oNear.index]);
+                        oNear.className = "";
+                    } else {
+                        oThis.doMove(handle, oThis.aPos[handle.index])
+                    }
+
+                    handle.releaseCapture && handle.releaseCapture()
+                };
+                this.setCapture && this.setCapture();
+                return false
+            };
+        },
+        doMove: function(obj, iTarget, callback) {
+            var oThis = this;
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function() {
+                var iCurL = getPos(obj).left;
+                var iCurT = getPos(obj).top;
+                var iSpeedL = (iTarget.left - iCurL) / 5;
+                var iSpeedT = (iTarget.top - iCurT) / 5;
+                iSpeedL = iSpeedL > 0 ? Math.ceil(iSpeedL) : Math.floor(iSpeedL);
+                iSpeedT = iSpeedT > 0 ? Math.ceil(iSpeedT) : Math.floor(iSpeedT);
+
+                if (iCurL == iTarget.left && iCurT == iTarget.top) {
+                    clearInterval(obj.timer);
+                    callback && callback()
+                } else {
+                    obj.style.left = iCurL + iSpeedL + "px";
+                    obj.style.top = iCurT + iSpeedT + "px"
+                }
+            }, 30)
+        },
+        findNearest: function(obj) {
+            var aDistance = [];
+            var i = 0;
+            for (i = 0; i < this.aLi.length; i++) aDistance[i] = this.aLi[i] == obj ? Number.MAX_VALUE : this.getDistance(obj, this.aLi[i]);
+
+            var minNum = Number.MAX_VALUE;
+            var minIndex = -1;
+            for (i = 0; i < aDistance.length; i++) aDistance[i] < minNum && (minNum = aDistance[i], minIndex = i);
+
+            return this.isButt(obj, this.aLi[minIndex]) ? this.aLi[minIndex] : null
+        },
+        getDistance: function(obj1, obj2) {
+            var a = (obj1.offsetLeft + obj1.offsetWidth / 2) - (obj2.offsetLeft + obj2.offsetWidth / 2);
+            var b = (obj1.offsetTop + obj1.offsetTop / 2) - (obj2.offsetTop + obj2.offsetTop / 2);
+            return Math.sqrt(a * a + b * b)
+        },
+        isButt: function(obj1, obj2) {
+            var l1 = obj1.offsetLeft;
+            var t1 = obj1.offsetTop;
+            var r1 = l1 + obj1.offsetWidth;
+            var b1 = t1 + obj1.offsetHeight;
+
+            var l2 = obj2.offsetLeft;
+            var t2 = obj2.offsetTop;
+            var r2 = l2 + obj2.offsetWidth;
+            var b2 = t2 + obj2.offsetHeight;
+
+            return !(r1 < l2 || b1 < t2 || r2 < l1 || b2 < t1)
+        },
+        randomOrder: function() {
+            this.aPos.sort(function() {
+                return Math.random() > 0.5 ? 1 : -1
+            });
+            for (var i = 0; i < this.aLi.length; i++) {
+                this.aLi[i].index = i;
+                this.doMove(this.aLi[i], this.aPos[i])
+            }
+        }
+    };
+    window.onload = function() {
+        var aBox = $$$("box");
+        var aData = [];
+        var aExample = [];
+        var i = 0;
+        //生成图片数据
+        for (i = 0; i < 20; i++) aData[aData.length] = "../../../src/images/photo" + i + ".jpg";
+        //循环创建多个实例
+        for (i = 0; i < aBox.length; i++) {
+            var oExample = new PhotoWall(aBox[i], aData);
+            aExample.push(oExample)
+        }
+        this.onresize = function() {
+            for (var p in aExample) aExample[p].changeLayout()
+        };
+        this.onresize()
+    };
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <h2 class="title"><span>一堆90后</span><a href="javascript:;" class="order">随机排序</a></h2>
+        <ul></ul>
+    </div>
+    <div class="box">
+        <h2 class="title"><span>一堆90后</span><a href="javascript:;" class="order">随机排序</a></h2>
+        <ul></ul>
+    </div>
+</body>
+
+</html>

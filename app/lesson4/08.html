@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>事件练习：封装兼容性添加、删除事件的函数</title>
+    <style>
+    pre {
+        color: green;
+        padding: 10px 15px;
+        background: #f0f0f0;
+        border: 1px dotted #333;
+        font: 12px/1.5 Courier New;
+    }
+    
+    span {
+        color: #999;
+    }
+    </style>
+    <script type="text/javascript">
+    var EventUtil = {
+        addHandler: function(oElement, sEvent, fnHandler) {
+            oElement.addEventListener ? oElement.addEventListener(sEvent, fnHandler, false) : oElement.attachEvent("on" + sEvent, fnHandler)
+        },
+        removeHandler: function(oElement, sEvent, fnHandler) {
+            oElement.removeEventListener ? oElement.removeEventListener(sEvent, fnHandler, false) : oElement.detachEvent("on" + sEvent, fnHandler)
+        },
+        addLoadHandler: function(fnHandler) {
+            this.addHandler(window, "load", fnHandler)
+        }
+    };
+    EventUtil.addLoadHandler(function() {
+        var aBtn = document.getElementsByTagName("input");
+
+        //为第一个按钮添加绑定事件
+        EventUtil.addHandler(aBtn[1], "click", function() {
+            EventUtil.addHandler(aBtn[0], "click", fnHandler);
+            aBtn[0].value = "我可以点击了"
+        });
+
+        //解除第一个按钮的绑定事件
+        EventUtil.addHandler(aBtn[2], "click", function() {
+            EventUtil.removeHandler(aBtn[0], "click", fnHandler);
+            aBtn[0].value = "毫无用处的按钮"
+        });
+
+        //事件处理函数
+        function fnHandler() {
+            alert("事件绑定成功！")
+        }
+    })
+    </script>
+</head>
+
+<body>
+    <pre>
+&lt;script type="text/javascript"&gt;
+var EventUtil = {
+	addHandler: function (oElement, sEvent, fnHandler) {
+		oElement.addEventListener ? oElement.addEventListener(sEvent, fnHandler, false) : oElement.attachEvent("on" + sEvent, fnHandler)	
+	},
+	removeHandler: function (oElement, sEvent, fnHandler) {
+		oElement.removeEventListener ? oElement.removeEventListener(sEvent, fnHandler, false) : oElement.detachEvent("on" + sEvent, fnHandler)
+	},
+	addLoadHandler: function (fnHandler) {
+		this.addHandler(window, "load", fnHandler)
+	}
+}
+&lt;/script&gt;
+</pre>
+    <center>
+        <input type="button" value="毫无用处的按钮">
+        <input type="button" value="绑定click">
+        <input type="button" value="解除绑定">
+    </center>
+</body>
+
+</html>

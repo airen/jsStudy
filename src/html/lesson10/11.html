@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>《穿越火线》官网导航菜单</title>
+    <style type="text/css">
+    body,
+    div,
+    dl,
+    dt,
+    dd,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+    body {
+        font: 12px/1.5 Arial;
+        background: url(../../../src/images/cfbg.jpg) repeat-x #1A1A1A;
+    }
+    
+    #wrap {
+        position: relative;
+        width: 990px;
+        margin: 0 auto;
+    }
+    
+    #nav {
+        height: 67px;
+        padding-top: 24px;
+        background: url(../../../src/images/cfnav.jpg) no-repeat;
+    }
+    
+    #nav ul {
+        height: 67px;
+        overflow: hidden;
+        padding-left: 6px;
+    }
+    
+    #nav ul li {
+        float: left;
+        height: 67px;
+    }
+    
+    #nav ul li a {
+        height: 67px;
+        display: block;
+        overflow: hidden;
+        text-indent: -9999px;
+        background: url(../../../src/images/cfnav.jpg) -999px -999px no-repeat;
+    }
+    
+    #m1,
+    #s1 {
+        width: 53px;
+    }
+    
+    #m5,
+    #s5 {
+        width: 89px;
+    }
+    
+    #m6,
+    #s6 {
+        width: 89px;
+        margin-left: 184px;
+    }
+    
+    #m10,
+    #s10 {
+        width: 51px;
+    }
+    
+    #m1.current a,
+    #m1 a:hover {
+        background-position: -6px -115px;
+    }
+    
+    #m2.current a,
+    #m2 a:hover {
+        background-position: -59px -115px;
+    }
+    
+    #m3.current a,
+    #m3 a:hover {
+        background-position: -143px -115px;
+    }
+    
+    #m4.current a,
+    #m4 a:hover {
+        background-position: -231px -115px;
+    }
+    
+    #m5.current a,
+    #m5 a:hover {
+        background-position: -319px -115px;
+    }
+    
+    #m6.current a,
+    #m6 a:hover {
+        background-position: -592px -115px;
+    }
+    
+    #m7.current a,
+    #m7 a:hover {
+        background-position: -681px -115px;
+    }
+    
+    #m8.current a,
+    #m8 a:hover {
+        background-position: -768px -115px;
+    }
+    
+    #m9.current a,
+    #m9 a:hover {
+        background-position: -852px -115px;
+    }
+    
+    #m10.current a,
+    #m10 a:hover {
+        background-position: -939px -115px;
+    }
+    
+    #sub {
+        position: absolute;
+        width: 984px;
+        left: 6px;
+        top: 91px;
+        height: 0;
+        overflow: hidden;
+        background: url(../../../src/images/cfsubbg.jpg) no-repeat;
+    }
+    
+    #sub ul {
+        float: left;
+        padding-top: 21px;
+    }
+    
+    #sub ul.current {
+        background: url(../../../src/images/cfhig.jpg) repeat-x;
+    }
+    
+    #sub ul li {
+        height: 21px;
+        line-height: 21px;
+    }
+    
+    #sub ul li a {
+        color: #B4B4B4;
+        padding-left: 15px;
+        text-decoration: none;
+    }
+    
+    #sub ul li a:hover {
+        color: #03FAE5;
+        background: url(../../../src/images/cfarr.gif) 8px 50% no-repeat;
+    }
+    
+    #banner {
+        height: 230px;
+        background: url(../../../src/images/cfbanner.jpg) 0 0 no-repeat;
+    }
+    
+    #copyright {
+        color: #7A7A7A;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-top: 2px solid #381519;
+    }
+    
+    #copyright a {
+        color: #FFF;
+        background: #7A7A7A;
+        border-radius: 10px;
+        text-decoration: none;
+        padding: 2px 5px;
+    }
+    
+    #m2,
+    #s2,
+    #m8,
+    #s8 {
+        width: 84px;
+    }
+    
+    #m3,
+    #s3,
+    #m4,
+    #s4 {
+        width: 88px;
+    }
+    
+    #m7,
+    #s7,
+    #m9,
+    #s9 {
+        width: 87px;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var oNav = document.getElementById("nav").getElementsByTagName("ul")[0];
+        var oSub = document.getElementById("sub");
+        var aNav = oNav.getElementsByTagName("li");
+        var aSub = oSub.getElementsByTagName("ul");
+        var timer = null;
+        var i = 0;
+        //二级菜单显示
+        oNav.onmouseover = oSub.onmouseover = function() {
+            clearTimeout(timer);
+            doMove(oSub, 153);
+        };
+        //二级菜单隐藏
+        oNav.onmouseout = oSub.onmouseout = function() {
+            timer = setTimeout(function() {
+                doMove(oSub, 0);
+            }, 200);
+        };
+        //菜单当前位置
+        for (i = 0; i < aNav.length; i++) {
+            (function(index) {
+                aNav[index].onmouseover = aSub[index].onmouseover = function() {
+                    for (i = 0; i < aNav.length; i++) aNav[i].className = aSub[i].className = "";
+                    index && (aNav[index].className = aSub[index].className = "current");
+                };
+                aNav[index].onmouseout = aSub[index].onmouseout = function() {
+                    aNav[index].className = aSub[index].className = "";
+                };
+            })(i);
+        };
+    };
+
+    function doMove(obj, iTarget) {
+        clearInterval(obj.timer);
+        obj.timer = setInterval(function() {
+            var iSpeed = (iTarget - obj.offsetHeight) / 5;
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+            obj.offsetHeight == iTarget ? clearInterval(obj.timer) : (obj.style.height = iSpeed + obj.offsetHeight + "px");
+        }, 30);
+    }
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="nav">
+            <ul>
+                <li id="m1"><a href="javascript:;">首页</a></li>
+                <li id="m2"><a href="javascript:;">火线报道</a></li>
+                <li id="m3"><a href="javascript:;">游戏指南</a></li>
+                <li id="m4"><a href="javascript:;">下载中心</a></li>
+                <li id="m5"><a href="javascript:;">快速通道</a></li>
+                <li id="m6"><a href="javascript:;">火线专区</a></li>
+                <li id="m7"><a href="javascript:;">特色系统</a></li>
+                <li id="m8"><a href="javascript:;">玩家互动</a></li>
+                <li id="m9"><a href="javascript:;">腾讯客服</a></li>
+                <li id="m10"><a href="javascript:;">论坛</a></li>
+            </ul>
+        </div>
+        <!--/nav-->
+        <div id="sub">
+            <ul id="s1"></ul>
+            <ul id="s2">
+                <li><a href="javascript:;">新闻</a></li>
+                <li><a href="javascript:;">公告</a></li>
+                <li><a href="javascript:;">活动</a></li>
+                <li><a href="javascript:;">赛事</a></li>
+            </ul>
+            <ul id="s3">
+                <li><a href="javascript:;">新兵上路</a></li>
+                <li><a href="javascript:;">游戏资料</a></li>
+                <li><a href="javascript:;">常见问题</a></li>
+            </ul>
+            <ul id="s4">
+                <li><a href="javascript:;">游戏下载</a></li>
+                <li><a href="javascript:;">精美壁纸</a></li>
+                <li><a href="javascript:;">主题歌曲</a></li>
+                <li><a href="javascript:;">火线杂志</a></li>
+                <li><a href="javascript:;">连载小说</a></li>
+            </ul>
+            <ul id="s5">
+                <li><a href="javascript:;">体验服</a></li>
+                <li><a href="javascript:;">封号查询</a></li>
+                <li><a href="javascript:;">BUG提交</a></li>
+                <li><a href="javascript:;">游戏安全</a></li>
+                <li><a href="javascript:;">防沉迷</a></li>
+                <li><a href="javascript:;">反外挂专题</a></li>
+            </ul>
+            <ul id="s6">
+                <li><a href="javascript:;">活动专区</a></li>
+                <li><a href="javascript:;">版本专区</a></li>
+                <li><a href="javascript:;">大赛专区</a></li>
+                <li><a href="javascript:;">视频专区</a></li>
+                <li><a href="javascript:;">QQ会员专区</a></li>
+                <li><a href="javascript:;">CDKEY专区</a></li>
+            </ul>
+            <ul id="s7">
+                <li><a href="javascript:;">战队系统</a></li>
+                <li><a href="javascript:;">荣誉系统</a></li>
+            </ul>
+            <ul id="s8">
+                <li><a href="javascript:;">战术攻略</a></li>
+                <li><a href="javascript:;">玩家相册</a></li>
+                <li><a href="javascript:;">玩家视频</a></li>
+                <li><a href="javascript:;">玩家截图</a></li>
+                <li><a href="javascript:;">官方博客</a></li>
+                <li><a href="javascript:;">官方微博</a></li>
+            </ul>
+            <ul id="s9">
+                <li><a href="javascript:;">客户服务</a></li>
+                <li><a href="javascript:;">用户协议</a></li>
+                <li><a href="javascript:;">玩家条例</a></li>
+                <li><a href="javascript:;">网友互助</a></li>
+            </ul>
+            <ul id="s10">
+                <li><a href="javascript:;">论坛</a></li>
+                <li><a href="javascript:;">搜吧</a></li>
+            </ul>
+        </div>
+        <!--/sub-->
+        <div id="banner"></div>
+        <!--/banner-->
+    </div>
+    <!--/wrap-->
+    <div id="copyright">如蒙转载请注明出处 <a href="http://js.fgm.cc">Fgm.cc</a> , By — Ferris, QQ:21314130</div>
+    <!--/copyright-->
+</body>
+
+</html>

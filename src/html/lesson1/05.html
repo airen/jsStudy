@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>鼠标移入/移出改变样式</title>
+    <style>
+    body {
+        color: #fff;
+        font: 12px/1.5 Tahoma;
+    }
+    
+    #div1 {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        padding: 10px;
+        background: black;
+        border: 10px solid #000;
+        cursor: crosshair;
+    }
+    
+    #div1.hover {
+        color: red;
+        background: #f0f0f0;
+        border: 10px solid red;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oDiv = document.getElementById("div1");
+        oDiv.onmouseover = function() {
+            oDiv.className = "hover"
+        };
+        oDiv.onmouseout = function() {
+            oDiv.className = ""
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <div id="div1">鼠标移入改变样式，鼠标移出恢复。</div>
+</body>
+
+</html>

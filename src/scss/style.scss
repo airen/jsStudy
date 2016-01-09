@@ -1,0 +1,24 @@
+
+//helpers
+@import "helpers/variables";
+@import "helpers/functions/functions";
+@import "helpers/mixins";
+@import "helpers/helpers";
+
+//base
+@import "base/reset";
+
+//components
+
+//layout
+
+//test style
+
+.example {
+    background: white svg(square param(--color #00b1ff)) cover;
+    transition: all .2s ease;
+}
+.testbox {
+	transition: color .3s ease-in;
+	animation: boy .2s ease;
+}

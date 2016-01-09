@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>仿苹果电脑任务栏菜单</title>
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 0
+    }
+    
+    #menu {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        text-align: center;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var oMenu = document.getElementById("menu");
+        var aImg = oMenu.getElementsByTagName("img");
+        var aWidth = [];
+        var i = 0;
+        //保存原宽度, 并设置当前宽度
+        for (i = 0; i < aImg.length; i++) {
+            aWidth.push(aImg[i].offsetWidth);
+            aImg[i].width = parseInt(aImg[i].offsetWidth / 2);
+        }
+        //鼠标移动事件
+        document.onmousemove = function(event) {
+            var event = event || window.event;
+            for (i = 0; i < aImg.length; i++) {
+                var a = event.clientX - aImg[i].offsetLeft - aImg[i].offsetWidth / 2;
+                var b = event.clientY - aImg[i].offsetTop - oMenu.offsetTop - aImg[i].offsetHeight / 2;
+                var iScale = 1 - Math.sqrt(a * a + b * b) / 300;
+                if (iScale < 0.5) iScale = 0.5;
+                aImg[i].width = aWidth[i] * iScale
+            }
+        };
+    };
+    </script>
+</head>
+
+<body>
+    <div id="menu">
+        <img src="../../../src/images/mac1.png" />
+        <img src="../../../src/images/mac2.png" />
+        <img src="../../../src/images/mac3.png" />
+        <img src="../../../src/images/mac4.png" />
+        <img src="../../../src/images/mac5.png" />
+        <img src="../../../src/images/mac6.png" />
+        <img src="../../../src/images/mac7.png" />
+        <img src="../../../src/images/mac8.png" />
+    </div>
+</body>
+
+</html>

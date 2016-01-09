@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>完美拖拽</title>
+    <style type="text/css">
+    html,
+    body {
+        overflow: hidden;
+    }
+    
+    body,
+    div,
+    h2,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        color: #fff;
+        background: #000;
+        font: 12px/2 Arial;
+    }
+    
+    p {
+        padding: 0 10px;
+        margin-top: 10px;
+    }
+    
+    span {
+        color: #ff0;
+        padding-left: 5px;
+    }
+    
+    #box {
+        position: absolute;
+        width: 300px;
+        height: 150px;
+        background: #333;
+        border: 2px solid #ccc;
+        top: 50%;
+        left: 50%;
+        margin: -75px 0 0 -150px;
+    }
+    
+    #box h2 {
+        height: 25px;
+        cursor: move;
+        background: #222;
+        border-bottom: 2px solid #ccc;
+        text-align: right;
+        padding: 0 10px;
+    }
+    
+    #box h2 a {
+        color: #fff;
+        font: 12px/25px Arial;
+        text-decoration: none;
+        outline: none;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var oBox = document.getElementById("box");
+        var oH2 = oBox.getElementsByTagName("h2")[0];
+        var oA = oBox.getElementsByTagName("a")[0];
+        var aSpan = oBox.getElementsByTagName("span");
+        var disX = disY = 0;
+        var bDrag = false;
+        var aPos = [{
+            x: oBox.offsetLeft,
+            y: oBox.offsetTop
+        }]
+
+        //鼠标按下, 激活拖拽
+        oH2.onmousedown = function(event) {
+            var event = event || window.event;
+            bDrag = true;
+            disX = event.clientX - oBox.offsetLeft;
+            disY = event.clientY - oBox.offsetTop;
+
+            aPos.push({
+                x: oBox.offsetLeft,
+                y: oBox.offsetTop
+            })
+
+            this.setCapture && this.setCapture();
+
+            return false
+        };
+
+        //拖拽开始
+        document.onmousemove = function(event) {
+            if (!bDrag) return;
+            var event = event || window.event;
+            var iL = event.clientX - disX;
+            var iT = event.clientY - disY;
+            var maxL = document.documentElement.clientWidth - oBox.offsetWidth;
+            var maxT = document.documentElement.clientHeight - oBox.offsetHeight;
+
+            iL = iL < 0 ? 0 : iL;
+            iL = iL > maxL ? maxL : iL;
+
+            iT = iT < 0 ? 0 : iT;
+            iT = iT > maxT ? maxT : iT;
+
+            oBox.style.marginTop = oBox.style.marginLeft = 0;
+            oBox.style.left = iL + "px";
+            oBox.style.top = iT + "px";
+
+            aPos.push({
+                x: iL,
+                y: iT
+            })
+
+            status();
+
+            return false
+        };
+
+        //鼠标释放, 结束拖拽
+        document.onmouseup = window.onblur = oH2.onlosecapture = function() {
+            bDrag = false;
+            oH2.releaseCapture && oH2.releaseCapture();
+            status()
+        };
+
+        //回放拖动轨迹
+        oA.onclick = function() {
+            if (aPos.length == 1) return;
+            var timer = setInterval(function() {
+                var oPos = aPos.pop();
+                oPos ? (oBox.style.left = oPos.x + "px", oBox.style.top = oPos.y + "px", status()) : clearInterval(timer)
+            }, 30);
+
+            this.focus = false; //去除链接虚线
+
+            return false
+        };
+
+        //阻止冒泡
+        oA.onmousedown = function(event) {
+            (event || window.event).cancelBubble = true
+        };
+
+        //监听状态函数
+        function status() {
+            aSpan[0].innerHTML = bDrag;
+            aSpan[1].innerHTML = oBox.offsetTop;
+            aSpan[2].innerHTML = oBox.offsetLeft
+        }
+
+        //初始调用
+        status()
+    };
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <h2><a href="javascript:;">点击回放拖动轨迹</a></h2>
+        <p><strong>Drag:</strong><span></span></p>
+        <p><strong>offsetTop:</strong><span></span></p>
+        <p><strong>offsetLeft:</strong><span></span></p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>日历组件示例</title>
+    <link href="../../../src/css/calendar.css" rel="stylesheet" type="text/css">
+    <style>
+    body,
+    h2,
+    h5,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font: 14px/1.5 Tahoma;
+        padding: 10px;
+        min-width: 890px;
+        width: auto!important;
+        width: 880px;
+    }
+    
+    h2 {
+        float: left;
+        clear: both;
+        font-size: 16px;
+        margin: 0;
+        padding: 10px 0;
+        font-family: \5fae\8f6f\96c5\9ed1;
+    }
+    
+    #copyright {
+        font-size: 12px;
+        float: left;
+        clear: both;
+        width: 100%;
+        color: #9A9A9A;
+        text-align: center;
+        padding: 10px 0;
+        border-top: 2px solid #3485C0;
+        margin: 15px 0;
+    }
+    
+    #copyright a {
+        background: #9A9A9A;
+        border-radius: 10px 10px 10px 10px;
+        color: #FFF;
+        padding: 2px 5px;
+        text-decoration: none;
+    }
+    
+    #box {
+        position: absolute;
+        top: 380px;
+        left: 50%;
+        width: 210px;
+        background: #FFF;
+        border: 1px solid #CCC;
+        margin-left: -121px;
+        padding: 20px;
+    }
+    
+    #box .item {
+        float: left;
+        clear: both;
+        width: 100%;
+        position: relative;
+        margin-top: 10px;
+    }
+    
+    input {
+        width: 200px;
+        font-family: inherit;
+        border: 1px solid #CCC;
+        padding: 4px;
+    }
+    
+    hr {
+        float: left;
+        clear: both;
+        width: 100%;
+        margin: 15px 0 0 0;
+    }
+    </style>
+</head>
+
+<body>
+    <center><a href="javascript:;" id="J_Cal_7">点我也能弹出日历（竖版）</a></center>
+    <h2>单个日历（本月）</h2>
+    <div id="J_Cal_1"></div>
+    <hr />
+    <h2>单个日历（本月）开启select选择</h2>
+    <div id="J_Cal_2"></div>
+    <hr />
+    <h2>双日历（本月开始）选择范围 今天 —— 下个月的今天</h2>
+    <div id="J_Cal_3"></div>
+    <hr />
+    <h2>三排日历（本月开始）显示上下月按钮，2012——2020节假日特殊显示</h2>
+    <div id="J_Cal_4"></div>
+    <hr />
+    <h2>四排日历（指定日期为2012年12月21日）显示上下月按钮</h2>
+    <div id="J_Cal_5"></div>
+    <div id="box">
+        <h5>选择日期</h5>
+        <div class="item">
+            <input id="J_Cal_6" type="text" value="" autocomplete="off" />
+        </div>
+        <div class="item">
+            <select>
+                <option>看看能不能遮住</option>
+                <option>看看能不能遮住</option>
+                <option>看看能不能遮住</option>
+            </select>
+        </div>
+    </div>
+    <div id="copyright">如蒙转载请注明出处 <a href="http://js.fgm.cc">Fgm.cc</a> , By &mdash; Ferris, QQ:21314130</div>
+    <!--日历控件JS源码-->
+    <script src="../../../src/js/calendar.js"></script>
+    <!--控件应用实例-->
+    <script>
+    var oToday = new Date();
+    //单个日历（本月）
+    var oCal_1 = new Calendar({
+        id: "#J_Cal_1"
+    });
+    //单个日历（本月）开启select选择
+    var oCal_2 = new Calendar({
+        id: "#J_Cal_2",
+        isSelect: !0
+    });
+    oCal_2.on("dateClick", function(obj) {
+        alert(obj["data-date"])
+    });
+    //双日历（本月开始）选择范围 今天 —— 下个月的今天, 选择日期弹出相应日期及星期几
+    var oCal_3 = new Calendar({
+        id: "#J_Cal_3",
+        count: 2,
+        range: {
+            mindate: oToday,
+            maxdate: new Date(oToday.getFullYear(), oToday.getMonth() + 1, oToday.getDate())
+        }
+    });
+    oCal_3.on("dateClick", function(obj) {
+        alert(obj["data-date"] + "\u3010" + this.getDateInfo(obj["data-date"]).week + "\u3011")
+    });
+    //三日历（本月开始）显示上下月按钮, 2012——2020节假日特殊显示
+    var oToday = new Date();
+    var oCal_4 = new Calendar({
+        id: "#J_Cal_4",
+        isPrevBtn: !0,
+        isNextBtn: !0,
+        count: 3,
+        isHoliday: !0,
+        range: {
+            mindate: "2012-01-01"
+        }
+    });
+    oCal_4.on("dateClick", function(obj) {
+        var o = obj.children[0] || obj,
+            aA = _CAL.$("a", this.container),
+            i, oTmp;
+        //移出选择样式
+        for (i = aA.length; i--;) {
+            oTmp = aA[i].children[0] || aA[i];
+            _CAL.removeClass(oTmp, "selected")
+        };
+        //增加选中样式	
+        _CAL.addClass(o, "selected");
+
+        alert(obj["data-date"] + "\u3010" + this.getDateInfo(obj["data-date"]).holiday + "\u3011")
+    });
+    //四排日历（指定日期为2012年12月21日）显示上下月按钮
+    var oCal_5 = new Calendar({
+        id: "#J_Cal_5",
+        isPrevBtn: !0,
+        isNextBtn: !0,
+        count: 4,
+        date: new Date(2012, 11),
+        selectDate: "2012-12-21"
+    });
+    //弹出式日历
+    var oCal_6 = new Calendar({
+        id: "#J_Cal_6",
+        isPopup: !0,
+        isPrevBtn: !0,
+        isNextBtn: !0,
+        isCloseBtn: !0,
+        count: 2,
+        monthStep: 1,
+        isHoliday: !0,
+        isHolidayTips: !0,
+        isReadonly: !0,
+        isDateInfo: !0,
+        range: {
+            mindate: oToday,
+            maxdate: "2020-12-31"
+        }
+    });
+    oCal_6.revise = {
+        top: -1,
+        left: 0
+    };
+    oCal_6.on("dateClick", function(obj) {
+        this.selectDate = obj["data-date"];
+    });
+
+    //文本触发的弹出日历（竖版）
+    var oCal_7 = new Calendar({
+        id: "#J_Cal_7",
+        isPopup: !0,
+        isPrevBtn: !0,
+        isNextBtn: !0,
+        isCloseBtn: !0,
+        count: 2
+    });
+    //只要限制容器宽度即可
+    oCal_7.container.style.width = 203 + "px";
+    </script>
+</body>
+
+</html>

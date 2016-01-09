@@ -1,0 +1,221 @@
+:root {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+}
+
+details, main, summary {
+  display: block;
+}
+
+template, [hidden] {
+  display: none;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+input[type="number"] {
+  width: auto;
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+pre {
+  overflow: auto;
+}
+
+progress {
+  display: inline-block;
+}
+
+small {
+  font-size: 12px;
+}
+
+textarea {
+  overflow: auto;
+}
+
+[unselectable] {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/*
+ * Universal inheritance
+ */
+*,
+::before,
+::after,
+:before,
+:after {
+  box-sizing: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+::before,
+::after,
+:before,
+:after {
+  text-decoration: inherit;
+  vertical-align: inherit;
+}
+
+*,
+::before,
+::after,
+:before,
+:after {
+  border-style: solid;
+  border-width: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  box-sizing: border-box;
+  cursor: default;
+  font: 14px/1.42857 "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  text-decoration: none;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+button,
+input,
+select,
+textarea {
+  background-color: transparent;
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  min-height: 1.42857em;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button[disabled],
+input[disabled] {
+  cursor: default;
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+}
+
+nav ol,
+nav ul {
+  list-style: none;
+}
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select::-ms-value {
+  color: currentColor;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+img {
+  border: 0;
+}
+
+@media screen {
+  [hidden~="screen"] {
+    display: inherit;
+  }
+  [hidden~="screen"]:not(:active):not(:focus):not(:target) {
+    clip: rect(0 0 0 0) !important;
+    position: absolute !important;
+  }
+}
+
+.example {
+  background: white svg(square param(--color #00b1ff)) cover;
+  -webkit-transition: all .2s ease;
+          transition: all .2s ease;
+}
+
+.testbox {
+  -webkit-transition: color .3s ease-in;
+          transition: color .3s ease-in;
+  -webkit-animation: boy .2s ease;
+          animation: boy .2s ease;
+}
+
+/*# sourceMappingURL=style.css.map */

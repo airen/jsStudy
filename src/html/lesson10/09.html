@@ -1,0 +1,648 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>百度有啊通栏展示效果</title>
+    <style type="text/css">
+    body,
+    div,
+    dl,
+    dt,
+    dd,
+    ul,
+    li,
+    h3 {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        color: #333;
+        font: 12px/1.5 arial;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+    a:link,
+    a:visited,
+    a:active {
+        color: #333;
+        text-decoration: none;
+    }
+    
+    a:hover {
+        color: #F30;
+    }
+    
+    img {
+        border: none;
+    }
+    
+    #box {
+        width: 740px;
+        margin: 10px auto;
+    }
+    
+    #container {
+        position: relative;
+        height: 232px;
+        background: #FCFCFC;
+    }
+    
+    #container .item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 492px;
+        height: 230px;
+        overflow: hidden;
+        background: #FAFAFA;
+        border: 1px solid #ddd;
+        z-index: 1;
+        opacity: 1;
+    }
+    
+    #container .item .pic {
+        float: left;
+        width: 210px;
+        height: 200px;
+        display: inline;
+        margin: 15px;
+    }
+    
+    #container .item .pic img {
+        width: 210px;
+        height: 200px;
+        vertical-align: top;
+    }
+    
+    #container .item .txt {
+        float: left;
+        width: 250px;
+        margin-top: 12px;
+    }
+    
+    #container .item .txt dt {
+        font-size: 14px;
+        font-weight: 700;
+    }
+    
+    #container .item .txt .info {
+        color: #999;
+    }
+    
+    #container .item .txt dd {
+        height: 24px;
+        line-height: 24px;
+    }
+    
+    #container .item .txt dd span {
+        float: left;
+    }
+    
+    #container .item .txt .star {
+        position: relative;
+        float: left;
+        height: 12px;
+        width: 69px;
+        margin: 6px 0 0 5px;
+    }
+    
+    #container .item .txt .star .star_red {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 12px;
+        width: 69px;
+        z-index: 2;
+        background: url(../../../src/images/youastar.png) repeat-x scroll left top transparent;
+    }
+    
+    #container .item .txt .star .star_grey {
+        background: url(../../../src/images/youastar.png) repeat-x scroll left -15px transparent;
+        height: 12px;
+        width: 69px;
+    }
+    
+    #container .item .txt .pink,
+    #container .item .txt .blue,
+    #container .item .txt .green {
+        color: #FFF;
+        font-weight: 700;
+        margin-right: 2px;
+        background: #F66B5B;
+        padding: 0 5px;
+    }
+    
+    #container .item .txt .blue {
+        background: #96BAE7;
+    }
+    
+    #container .item .txt .green {
+        background: #9CDBC3;
+    }
+    
+    #container .item .txt .comment {
+        width: 232px;
+        height: 99px;
+        margin-top: 10px;
+        background: #FFF;
+        border: 1px solid #EAEAEA;
+    }
+    
+    #container .item .txt .comment h3 {
+        font-size: 12px;
+        font-weight: 400;
+        height: 24px;
+        line-height: 24px;
+        border-bottom: 1px solid #E9E9E9;
+        padding: 0 10px;
+    }
+    
+    #container .item .txt .comment .comment_list {
+        width: 220px;
+        height: 60px;
+        overflow: hidden;
+        margin: 8px 0 0 10px;
+    }
+    
+    #container .item .txt .comment .comment_list ul {
+        width: 220px;
+    }
+    
+    #container .item .txt .comment .comment_list ul li {
+        height: 20px;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+    
+    #container .item .txt .comment .comment_list ul li b {
+        color: #999;
+        font-weight: 400;
+    }
+    
+    #control {
+        height: 37px;
+        text-align: center;
+        background: url(../../../src/images/youabg.png) no-repeat;
+    }
+    
+    #control span {
+        width: 8px;
+        height: 8px;
+        font-size: 0;
+        line-height: 0;
+        cursor: pointer;
+        display: inline-block;
+        background-color: #FEFEFE;
+        border: 1px solid #BCC1C5;
+        margin: 13px 2px 2px;
+    }
+    
+    #control span.active {
+        background-color: #848484;
+        border: 1px solid #6E6E6E;
+    }
+    </style>
+    <script type="text/javascript">
+    function Youa(obj) {
+        this.obj = $(obj);
+        this.container = $("container");
+        this.control = $("control");
+        this.items = $$$("item", this.container);
+        this.iCenter = 2;
+        this.aSort = [];
+        this.timer = null;
+        this.oData = [{
+            left: 0,
+            zIndex: 2,
+            opacity: 30
+        }, {
+            left: 40,
+            zIndex: 3,
+            opacity: 60
+        }, {
+            left: 124,
+            zIndex: 4,
+            opacity: 100
+        }, {
+            left: 208,
+            zIndex: 3,
+            opacity: 60
+        }, {
+            left: 246,
+            zIndex: 2,
+            opacity: 30
+        }, {
+            left: 40,
+            zIndex: 0,
+            opacity: 0
+        }];
+        this.__create__()
+    };
+    Youa.prototype.__create__ = function() {
+        var that = this;
+        var oSpan = null;
+        var i = 0;
+        for (i = 0; i < that.items.length; i++) {
+            that.items[i].number = i;
+            that.aSort[i] = that.items[i];
+            oSpan = document.createElement("span");
+            oSpan.number = i;
+            that.control.appendChild(oSpan)
+        }
+        for (i = 0; i < 2; i++) this.aSort.unshift(this.aSort.pop());
+        that.aSpan = $$("span", that.control);
+        that.control.onmouseover = function(ev) {
+            var oEv = ev || event;
+            var oTarget = oEv.target || oEv.srcElement;
+            if (oTarget.tagName.toUpperCase() == "SPAN") {
+                that.aSort.sort(function(a, b) {
+                    return a.number - b.number
+                });
+                if (oTarget.number < that.iCenter) {
+                    for (i = 0; i < that.iCenter - oTarget.number; i++) that.aSort.unshift(that.aSort.pop());
+                    that.__set__();
+                    return false
+                } else if (oTarget.number > that.iCenter) {
+                    for (i = 0; i < oTarget.number - that.iCenter; i++) that.aSort.push(that.aSort.shift());
+                    that.__set__();
+                    return false
+                } else {
+                    that.__set__()
+                }
+            }
+        }
+        this.__set__();
+        this.__switch__();
+        this.__autoPlay__()
+    };
+    Youa.prototype.__set__ = function() {
+        var i = 0;
+        for (i = 0; i < this.aSort.length; i++) this.container.appendChild(this.aSort[i]);
+        for (i = 0; i < this.aSpan.length; i++) this.aSpan[i].className = "";
+        this.aSpan[this.aSort[this.iCenter].number].className = "active";
+        for (i = 0; i < this.aSort.length; i++) {
+            this.aSort[i].index = i;
+            if (i < 5) {
+                new Animate(this.aSort[i], this.oData[i]);
+            } else {
+                new Animate(this.aSort[i], this.oData[this.oData.length - 1])
+            }
+        }
+    };
+    Youa.prototype.__switch__ = function() {
+        var i = 0;
+        var that = this;
+        this.container.onclick = function(ev) {
+            var oEv = ev || event;
+            var oTarget = oEv.target || oEv.srcElement;
+            var index = findItem(oTarget);
+
+            if (index < that.iCenter) {
+                for (i = 0; i < that.iCenter - index; i++) that.aSort.unshift(that.aSort.pop());
+                that.__set__();
+                return false
+            } else if (index > that.iCenter) {
+                for (i = 0; i < index - that.iCenter; i++) that.aSort.push(that.aSort.shift());
+                that.__set__();
+                return false
+            }
+
+            function findItem(element) {
+                return element.className == "item" ? element.index : arguments.callee(element.parentNode)
+            }
+        };
+    };
+    Youa.prototype.__autoPlay__ = function() {
+        var that = this;
+        that.timer = setInterval(function() {
+            that.aSort[3].click()
+        }, 3000);
+        that.obj.onmouseover = function() {
+            clearInterval(that.timer)
+        };
+        that.obj.onmouseout = function() {
+            that.timer = setInterval(function() {
+                that.aSort[3].click()
+            }, 3000)
+        }
+    };
+
+    function $(id) {
+        return typeof id === "string" ? document.getElementById(id) : id
+    };
+
+    function $$(tagName, oParent) {
+        return (oParent || document).getElementsByTagName(tagName)
+    };
+
+    function $$$(className, element, tagName) {
+        var i = 0;
+        var aClass = [];
+        var reClass = new RegExp("(^|//s)" + className + "(//s|$)");
+        var aElement = $$(tagName || "*", element || document);
+        for (i = 0; i < aElement.length; i++) reClass.test(aElement[i].className) && aClass.push(aElement[i]);
+        return aClass
+    };
+
+    function css(element, attr, value) {
+        if (arguments.length == 2) {
+            if (typeof arguments[1] === "string") {
+                return element.currentStyle ? element.currentStyle[attr] : getComputedStyle(element, null)[attr]
+            } else {
+                for (var property in attr) {
+                    property == "opacity" ?
+                        (element.style.filter = "alpha(opacity=" + attr[property] + ")", element.style.opacity = attr[property] / 100) :
+                        element.style[property] = attr[property]
+                }
+            }
+        } else if (arguments.length == 3) {
+            switch (attr) {
+                case "width":
+                case "height":
+                case "top":
+                case "left":
+                case "right":
+                case "bottom":
+                    element.style[attr] = value + "px";
+                    break;
+                case "opacity":
+                    element.style.filter = "alpha(opacity=" + value + ")";
+                    element.style.opacity = value / 100;
+                    break;
+                default:
+                    element.style[attr] = value;
+                    break
+            }
+        }
+        return element
+    };
+
+    function Animate(element, options, fnCallBack) {
+        this.obj = $(element);
+        this.options = options;
+        this.__onEnd__ = fnCallBack;
+        this.__startMove__()
+    };
+    Animate.prototype.__startMove__ = function() {
+        var that = this;
+        clearInterval(that.obj.timer);
+        that.obj.timer = setInterval(function() {
+            that.__doMove__()
+        }, 30);
+    };
+    Animate.prototype.__doMove__ = function() {
+        var complete = true;
+        var property = null;
+        for (property in this.options) {
+            var iCur = parseFloat(css(this.obj, property));
+            property == "opacity" && (iCur = parseInt(iCur.toFixed(2) * 100));
+            var iSpeed = (this.options[property] - iCur) / 5;
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+            this.options[property] == iCur || (complete = false, css(this.obj, property, iSpeed + iCur))
+        }
+        complete && (clearInterval(this.obj.timer), this.__onEnd__ && this.__onEnd__.apply(this.obj))
+    };
+    window.onload = function() {
+        new Youa("box")
+    };
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <div id="container">
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa1.jpg" /></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">必图拳馆</a></dt>
+                        <dd class="info">不要把自己困住 你需要释放！</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:48px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">过瘾</span><span class="blue">带劲</span><span class="green">有活力</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="thaifight：是一个非常好的一个拳馆。国内数一数二了。教练全是各个方面的专家。"><b>thaifight：</b>是一个非常好的一个拳馆。国内数一数二了。教练全是各个方面的专家。</li>
+                                <li title="快乐小友：散打课的实战机会挺多 很过瘾 能和杨教练学到真东西！"><b>快乐小友：</b>散打课的实战机会挺多 很过瘾 能和杨教练学到真东西！</li>
+                                <li title="爱情赛车：白天人很少，喜欢安静的朋友可以去这练，晚上也不乱而且气氛刚刚好，感觉很好比健身俱乐部好"><b>爱情赛车：</b>白天人很少，喜欢安静的朋友可以去这练，晚上也不乱而且气氛刚刚好，感觉很好比健身俱乐部好</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa2.jpg"></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">北京「七田阳光」全脑教育培训中心</a></dt>
+                        <dd class="info">点亮孩子智慧人生</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:48px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">亲切</span><span class="blue">耐心</span><span class="green">干净</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="Jcenter：如此诚恳的教育机构 非常难得 他们在真心做教育"><b>Jcenter：</b>如此诚恳的教育机构 非常难得 他们在真心做教育</li>
+                                <li title="citaslin：孩子的进步很大"><b>citaslin：</b>孩子的进步很大</li>
+                                <li title="甲鱼爱媛媛：七田阳光很注重品质，很务实"><b>甲鱼爱媛媛：</b>七田阳光很注重品质，很务实</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa3.jpg" /></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">慕纱莹雪婚纱礼服馆</a></dt>
+                        <dd class="info">物超所值的性价比，尽在慕纱莹雪！</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:62px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">精致</span><span class="blue">做工好</span><span class="green">专业</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="小企鹅快跑：这个周末去取了我定的婚纱，非常满意，做工很精美，特别在这里向大家推荐一下：）"><b>小企鹅快跑：</b>这个周末去取了我定的婚纱，非常满意，做工很精美，特别在这里向大家推荐一下：）</li>
+                                <li title="月逢明时：这家婚纱店的婚纱做工非常好"><b>月逢明时：</b>这家婚纱店的婚纱做工非常好</li>
+                                <li title="日历本丢了：上周末去取了婚纱，婚纱的质量很好，做工非常细致！她们店的售后服务也很好，如果结婚前感觉身材有变化，婚纱尺寸不合适了，她们还可以免费为客人做修改！婚纱的质量还有售后都很有保证！在这里也推荐给大家：） "><b>日历本丢了：</b>上周末去取了婚纱，婚纱的质量很好，做工非常细致！她们店的售后服务也很好，如果结婚前感觉身材有变化，婚纱尺寸不合适了，她们还可以免费为客人做修改！婚纱的质量还有售后都很有保证！在这里也推荐给大家：） </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa4.jpg"></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">北京金三优装饰有限责任公司</a></dt>
+                        <dd class="info">一站式服务让你省时、省力、省钱、省心</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:48px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">口碑好</span><span class="blue">规模很大</span><span class="green">讲信誉</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="紫婧之梦：这家店不错哦！"><b>紫婧之梦：</b>这家店不错哦！</li>
+                                <li title="gotometop：装修工都还挺朴实的，有些小的细节也能按照我的要求去弄，也没提额外收费的事儿。"><b>gotometop：</b>装修工都还挺朴实的，有些小的细节也能按照我的要求去弄，也没提额外收费的事儿。</li>
+                                <li title="libangcheng1：这家公司还可以，去年的时候找他家做过，售后不错"><b>libangcheng1：</b>这家公司还可以，去年的时候找他家做过，售后不错</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa5.jpg"></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">鸿喜族休闲俱乐部&mdash;潘家园店</a></dt>
+                        <dd class="info">专注人类健康，打造财富传奇！</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:48px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">真好</span><span class="blue">专业</span><span class="green">手法好</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="永封de铁盒：环境挺不错，灯光控制得好，不像有的台球店脏乎乎、黑漆漆的。而且间隔比较大，两桌之间互不影响。台子都蛮新，杆儿基本都直，重杆偏多些。服务员码球很专业，维护也仔细，客人打球一结束，马上刷台！"><b>永封de铁盒：</b>环境挺不错，灯光控制得好，不像有的台球店脏乎乎、黑漆漆的。而且间隔比较大，两桌之间互不影响。台子都蛮新，杆儿基本都直，重杆偏多些。服务员码球很专业，维护也仔细，客人打球一结束，马上刷台！</li>
+                                <li title="老冯爱国：不错的地方，是个很有档次的地方，常去，这里服务态度都超好，而且累了还有地方上网，真是替消费者着想啊"><b>老冯爱国：</b>不错的地方，是个很有档次的地方，常去，这里服务态度都超好，而且累了还有地方上网，真是替消费者着想啊</li>
+                                <li title="白云寺方丈：我不会打台球，但朋友聚会时经常去这家玩，店内装修挺豪华的，就是不玩也愿意在这里坐坐，由于经常看别人玩，现在我也能上手打几下了，挺好的，很喜欢来这里放松放松"><b>白云寺方丈：</b>我不会打台球，但朋友聚会时经常去这家玩，店内装修挺豪华的，就是不玩也愿意在这里坐坐，由于经常看别人玩，现在我也能上手打几下了，挺好的，很喜欢来这里放松放松</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa6.jpg"></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">北京心拓城拓展培训</a></dt>
+                        <dd class="info">客户第一 执行有力 激情勤奋 简单团结</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:48px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">专业</span><span class="blue">安全</span><span class="green">积极</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="janice19891：很负责任~"><b>janice19891：</b>很负责任~</li>
+                                <li title="旺达是条鱼：朋友参加过他们的拓展，说教练水平很好，看着危险做起来还是很安全滴^^"><b>旺达是条鱼：</b>朋友参加过他们的拓展，说教练水平很好，看着危险做起来还是很安全滴^^</li>
+                                <li title="bjftxiaoniu：吼吼，在这里看到他们了，公司刚组织完拓展，他们很敬业哦"><b>bjftxiaoniu：</b>吼吼，在这里看到他们了，公司刚组织完拓展，他们很敬业哦</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa7.jpg"></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">韩医生专业祛痘连锁机构北京直营店</a></dt>
+                        <dd class="info">我们只祛痘 所以更专业</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:62px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">效果好</span><span class="blue">细心</span><span class="green">专业</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="天涯hehaijiao：这家店很好，顾客很多，信誉很好，效果很好，一切都很好，不管你信不信，反正我是信了"><b>天涯hehaijiao：</b>这家店很好，顾客很多，信誉很好，效果很好，一切都很好，不管你信不信，反正我是信了</li>
+                                <li title="爱神马geili：我治疗了两天感觉的好多了，我妈带我来的，我妈是医生觉得他们很专业，就是离我远啊！我住在大兴呢，要是你们能在那设一个店就好了，来一次要好几个小时，有效果也不值了，我要坚持也谢谢你们的热情。"><b>爱神马geili：</b>我治疗了两天感觉的好多了，我妈带我来的，我妈是医生觉得他们很专业，就是离我远啊！我住在大兴呢，要是你们能在那设一个店就好了，来一次要好几个小时，有效果也不值了，我要坚持也谢谢你们的热情。</li>
+                                <li title="天上的语言：这几天已经看到明显效果了，先谢谢邱大夫和李店长。我觉得虽然每次来这里都挺煎熬，因为天气很热，但是一到这里到处都是蓝蓝的心情就好了一大半，再看到大家的服务，和脸上的效果就更加开心，所以打心底里感谢，马上开始下个疗程了，我很有信心，终于是不再花冤枉钱了，呵呵。"><b>天上的语言：</b>这几天已经看到明显效果了，先谢谢邱大夫和李店长。我觉得虽然每次来这里都挺煎熬，因为天气很热，但是一到这里到处都是蓝蓝的心情就好了一大半，再看到大家的服务，和脸上的效果就更加开心，所以打心底里感谢，马上开始下个疗程了，我很有信心，终于是不再花冤枉钱了，呵呵。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <a href="javascript:;"><img src="../../../src/images/youa8.jpg"></a>
+                </div>
+                <div class="txt">
+                    <dl>
+                        <dt><a href="javascript:;">罗曼卡婚纱摄影</a></dt>
+                        <dd class="info">口碑好 性价比高 无额外消费</dd>
+                        <dd><span>总体评价：</span>
+                            <div class="star">
+                                <div style="width:62px;" class="star_red"></div>
+                                <div class="star_grey"></div>
+                            </div>
+                        </dd>
+                        <dd><span>用户印象：</span><span class="pink">口碑好</span><span class="blue">很喜欢</span><span class="green">完美</span></dd>
+                    </dl>
+                    <div class="comment">
+                        <h3>用户评价</h3>
+                        <div class="comment_list">
+                            <ul id="list">
+                                <li title="明确指出i：拍的很不错，老妈都夸我呢"><b>明确指出i：</b>拍的很不错，老妈都夸我呢</li>
+                                <li title="爱就一直走吧：他们家服务态度好，衣服质量好又时尚，化妆品就更好了"><b>爱就一直走吧：</b>他们家服务态度好，衣服质量好又时尚，化妆品就更好了</li>
+                                <li title="爱过你me：最后照片拍出来后朋友们都觉得不错"><b>爱过你me：</b>最后照片拍出来后朋友们都觉得不错</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="control"></div>
+    </div>
+</body>
+
+</html>

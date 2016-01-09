@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>iPhone手机解锁效果</title>
+    <style type="text/css">
+    #iphone {
+        position: relative;
+        width: 426px;
+        height: 640px;
+        margin: 10px auto;
+        background: url(../../../src/images/iphone1.jpg) no-repeat;
+    }
+    
+    #lock {
+        position: absolute;
+        left: 50%;
+        bottom: 33px;
+        width: 358px;
+        height: 62px;
+        margin-left: -179px;
+    }
+    
+    #lock span {
+        position: absolute;
+        width: 93px;
+        height: 62px;
+        cursor: pointer;
+        background: url(../../../src/images/iphone-btn.jpg) no-repeat;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var iPhone = document.getElementById("iphone");
+        var oLock = document.getElementById("lock");
+        var oBtn = oLock.getElementsByTagName("span")[0];
+        var disX = 0;
+        var maxL = oLock.clientWidth - oBtn.offsetWidth;
+        var oBg = document.createElement("img");
+        oBg.src = "../../../src/images/iphone2.jpg"; //预加载下第二张背景，其它没什么大用。
+        oBtn.onmousedown = function(e) {
+            var e = e || window.event;
+            disX = e.clientX - this.offsetLeft;
+
+            document.onmousemove = function(e) {
+                var e = e || window.event;
+                var l = e.clientX - disX;
+
+                l < 0 && (l = 0);
+                l > maxL && (l = maxL);
+
+                oBtn.style.left = l + "px";
+
+                oBtn.offsetLeft == maxL && (iPhone.style.background = "url(" + oBg.src + ")", oLock.style.display = "none");
+                return false;
+            };
+            document.onmouseup = function() {
+                document.onmousemove = null;
+                document.onmouseup = null;
+                oBtn.releaseCapture && oBtn.releaseCapture();
+
+                oBtn.offsetLeft > maxL / 2 ?
+                    startMove(maxL, function() {
+                        iPhone.style.background = "url(" + oBg.src + ")";
+                        oLock.style.display = "none"
+                    }) :
+                    startMove(0)
+            };
+            this.setCapture && this.setCapture();
+            return false
+        };
+
+        function startMove(iTarget, onEnd) {
+            clearInterval(oBtn.timer);
+            oBtn.timer = setInterval(function() {
+                doMove(iTarget, onEnd)
+            }, 30)
+        }
+
+        function doMove(iTarget, onEnd) {
+            var iSpeed = (iTarget - oBtn.offsetLeft) / 5;
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+            iTarget == oBtn.offsetLeft ? (clearInterval(oBtn.timer), onEnd && onEnd()) : oBtn.style.left = iSpeed + oBtn.offsetLeft + "px"
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <div id="iphone">
+        <div id="lock"><span></span></div>
+    </div>
+</body>
+
+</html>

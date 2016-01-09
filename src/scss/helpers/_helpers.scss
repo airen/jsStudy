@@ -1,0 +1,164 @@
+//pull-left
+%pull-left {
+    @include float(left);
+}
+
+//pull-right
+%pull-right {
+    @include float(right);
+}
+
+//clearfix
+%clearfix {
+    &:before,
+    &:after {
+        content:"";
+        display: table;
+    }
+    &:after {
+        overflow: hidden;
+        clear: both;
+    }
+}
+
+
+//icon base style
+
+%icon-base-style {
+    display: inline-block;
+    text-align: center;
+    font: {
+        family: $icon-family-name;
+        style: normal;
+        weight: normal;
+        //size: 24px;
+    }
+    @include font-dpr(24px);
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+//buttons
+
+%btn {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: $cursor-pointer-value;
+    position: relative;
+    text-decoration: none;
+    font-weight: $btn-font-weight;
+    margin-bottom: 0;
+    text-align: center;
+    background-image: none;
+    border: 1px solid transparent;
+
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    appearance: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $border-radius-base);
+
+    &,
+    &:active,
+    &:focus{
+        outline: none 0;
+        color: $btn-default-color;
+        text-decoration: none;
+    }
+    &:after {
+        // used to create a larger button "hit" area
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        bottom: -6px;
+        left: -6px;
+        content: ' ';
+    }
+
+    &.btn-round {
+        border-radius: $padding-base-vertical * 2 + ($font-size-base * $line-height-base + 2px) / $font-size-root * 1rem;
+    }
+}
+
+%btn-group {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+
+    > [class*=btn-],
+    > [class^=btn-]{
+        position: relative;
+        @extend %pull-left;
+
+        &:hover,
+        &:focus,
+        &:active {
+            z-index: 2;
+        }
+
+        &:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+            border-radius: 0;
+        }
+
+        // Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
+
+        &:first-child{
+            margin-left: 0;
+
+            &:not(:last-child):not(.dropdown-toggle) {
+                border-top-right-radius:0;
+                border-bottom-right-radius:0;
+            }
+        }
+
+        // Need .dropdown-toggle since :last-child doesn't apply given a .dropdown-menu immediately after it
+        &:last-child:not(:first-child){
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
+
+//nav tabs
+%nav-tab-active {
+  content:"";
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 2px;
+}
+
+%flexbox{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+%equalflex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 0%;
+  flex: 1 1 0%;
+  text-align: center;
+}
+
+%table-layout{
+  display: table !important;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+}
+
+%table-cell{
+  display: table-cell;
+  width: 1%;
+  text-align: center;
+}
+

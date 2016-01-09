@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>单一按钮显示/隐藏</title>
+</head>
+<style>
+body,
+div,
+ul,
+li,
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 12px/1.5 Tahoma;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#outer {
+    width: 200px;
+    border: 1px solid #aaa;
+    margin: 10px auto;
+}
+
+#outer h2 {
+    cursor: pointer;
+    color: #57646E;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    background: #ced3d7 url(../../../src/images/ico.gif) 180px 15px no-repeat;
+    border-color: #fff #e9edf2;
+}
+
+#outer h2.open {
+    background-position: 180px -12px;
+}
+
+#outer ul {
+    border-top: 1px solid #DEE3E6;
+}
+
+#outer li {
+    height: 25px;
+    line-height: 25px;
+    vertical-align: top;
+}
+
+#outer a {
+    display: block;
+    color: #6b7980;
+    background: #e9edf2;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+#outer a:hover {
+    background: #fff;
+    text-decoration: underline;
+}
+</style>
+<script>
+window.onload = function() {
+    var oH2 = document.getElementsByTagName("h2")[0];
+    var oUl = document.getElementsByTagName("ul")[0];
+    oH2.onclick = function() {
+        var style = oUl.style;
+        style.display = style.display == "none" ? "block" : "none";
+        oH2.className = style.display == "none" ? "open" : ""
+    }
+}
+</script>
+
+<body>
+    <div id="outer">
+        <h2>播放列表...</h2>
+        <ul>
+            <li><a href="javascript:;">玩家之徒 - 蔡依林</a></li>
+            <li><a href="javascript:;">原谅我就是这样的女生 - 戴佩妮</a></li>
+            <li><a href="javascript:;">猜不透 - 丁当</a></li>
+            <li><a href="javascript:;">自导自演 - 周杰伦</a></li>
+            <li><a href="javascript:;">浪漫窝 - 弦子</a></li>
+            <li><a href="javascript:;">流年 - 王菲</a></li>
+        </ul>
+    </div>
+</body>
+
+</html>

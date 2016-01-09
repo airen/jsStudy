@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>求出数组中所有数字的和</title>
+    <style>
+    body {
+        color: #999;
+        font: 12px/1.5 Tahoma;
+    }
+    
+    #outer {
+        width: 500px;
+        margin: 0 auto;
+    }
+    
+    #outer input {
+        padding: 3px;
+        border: 1px solid #ccc;
+        font-family: inherit;
+        width: 220px;
+        margin-right: 10px;
+    }
+    
+    .sum {
+        font-size: 30px;
+        color: red;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oBtn = document.getElementsByTagName("button")[0];
+        var oInput = document.getElementsByTagName("input")[0]
+        var oStrong = document.getElementsByTagName("strong")[0];
+        oInput.onkeyup = function() {
+            this.value = this.value.replace(/[^(\d)|(,)]/, "")
+        }
+        oBtn.onclick = function() {
+            var sum = 0;
+            var oInput = document.getElementsByTagName("input")[0].value.split(",");
+            for (var i in oInput) {
+                sum += parseInt(oInput[i])
+            }
+            oStrong.innerHTML = sum
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="outer">
+        <label>
+            <input type="text" value="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15" /><span>输入数字求和，数字之间用半角","号分隔</span></label>
+        <p>
+            <button>求和</button>
+        </p>
+        <strong class="sum"></strong>
+    </div>
+</body>
+
+</html>

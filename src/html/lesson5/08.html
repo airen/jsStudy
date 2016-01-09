@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Div闪烁</title>
+    <style type="text/css">
+    #box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #fff;
+        width: 200px;
+        height: 200px;
+        background: red;
+        cursor: pointer;
+        letter-spacing: 5px;
+        text-align: center;
+        font: 12px/200px Arial;
+        margin: -100px 0 0 -100px;
+    }
+    </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        var oBox = document.getElementById("box");
+        var timer = null;
+
+        oBox.onclick = function() {
+            var i = 0;
+            clearInterval(timer);
+            timer = setInterval(function() {
+                oBox.style.display = i++ % 2 ? "none" : "block";
+                i > 6 && (clearInterval(timer))
+            }, 80)
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <div id="box">点击我就闪</div>
+</body>
+
+</html>

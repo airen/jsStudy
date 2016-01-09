@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>函数接收参数并弹出</title>
+    <style>
+    body {
+        font: 12px/1.5 Tahoma;
+        text-align: center;
+    }
+    
+    code,
+    input,
+    button {
+        font-family: inherit;
+    }
+    
+    input {
+        border: 1px solid #ccc;
+        padding: 3px;
+    }
+    
+    button {
+        cursor: pointer;
+    }
+    </style>
+    <script>
+    var myFn = function(a, b) {
+        alert(a.value);
+        alert(b.value)
+    };
+    window.onload = function() {
+        var oInput = document.getElementsByTagName("input");
+        var oBtn = document.getElementsByTagName("button")[0];
+        oBtn.onclick = function() {
+            myFn(oInput[0], oInput[1])
+        }
+    };
+    </script>
+</head>
+
+<body>
+    <p>
+        <input type="text" value="北京市" />
+    </p>
+    <p>
+        <input type="text" value="朝阳区" />
+    </p>
+    <p>
+        <button>传参</button>
+    </p>
+</body>
+
+</html>

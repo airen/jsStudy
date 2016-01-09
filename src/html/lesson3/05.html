@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>页面加载后累加，自加1</title>
+    <style>
+    body {
+        text-align: center;
+        font: 700 30px/1.5 arial;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var oBody = document.body;
+        var i = 0;
+        setInterval(updateNum, 1000);
+        updateNum();
+
+        function updateNum() {
+            oBody.innerHTML = ++i
+        }
+    }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

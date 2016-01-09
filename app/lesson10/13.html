@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>IBM官网导航条效果</title>
+    <style>
+    body,
+    div,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        height: 2000px;
+        background: #F0F0F0;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+    a:link,
+    a:visited {
+        outline: none;
+        text-decoration: none;
+    }
+    
+    #wrap {
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+    
+    #topBar {
+        color: #7A7A7A;
+        height: 28px;
+        background: #131623;
+        overflow: hidden;
+        font: 12px/28px Arial;
+        text-align: center;
+    }
+    
+    #topBar a {
+        color: #FFF;
+        background: #7A7A7A;
+        padding: 2px 5px;
+        border-radius: 10px;
+    }
+    
+    #nav {
+        height: 50px;
+        overflow: hidden;
+        border-top: 1px solid #999;
+        border-bottom: : 1px solid #666;
+        background: #000 url(../../../src/images/ibm-bg.png) repeat-x;
+    }
+    
+    #nav .logo {
+        float: left;
+        margin: 0 20px;
+    }
+    
+    #nav .logo a {
+        float: left;
+        width: 100px;
+        height: 50px;
+        overflow: hidden;
+        text-indent: -9999px;
+        background: url(../../../src/images/ibm-logo.png) no-repeat;
+    }
+    
+    #nav .logo a:hover {
+        background-position: 0 -50px;
+    }
+    
+    #nav.hide .logo a {
+        width: 100px;
+        height: 30px;
+        background-position: 0 -100px;
+        _background-position: 0 -130px;
+    }
+    
+    #nav.hide .logo a:hover {
+        background-position: 0 -130px;
+    }
+    
+    #nav ul,
+    #nav ul li {
+        float: left;
+    }
+    
+    #nav ul li a {
+        float: left;
+        color: #CCC;
+        height: 50px;
+        font: 16px/50px Arial;
+        padding: 0 20px;
+    }
+    
+    #nav ul li a:hover {
+        color: #FFF;
+        background: url(../../../src/images/ibm-bg.png) 0 -50px repeat-x;
+    }
+    
+    #nav.hide ul {
+        display: none;
+    }
+    </style>
+    <script>
+    var fgm = {
+        shit: !-[1, ] && !window.XMLHttpRequest,
+        scrollTop: function() {
+            return document.documentElement.scrollTop || document.body.scrollTop;
+        },
+        currentStyle: function(obj, attr) {
+            return parseInt(obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, null)[attr]);
+        },
+        fixed: function(element) {
+            if (this.shit) {
+                var top = this.currentStyle(element, "top") || 0,
+                    dd = "(document.documentElement)";
+                document.documentElement.style.textOverflow = "ellipsis";
+                element.style.position = "absolute";
+                element.style.setExpression("top", "eval(" + dd + ".scrollTop + " + (top - this.scrollTop()) + ') + "px"');
+            } else {
+                element.style.position = "fixed";
+            }
+        },
+        doMove: function(obj, iTarget, callback) {
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function() {
+                var iCur = fgm.currentStyle(obj, "height"),
+                    iSpeed = (iTarget - iCur) / 5;
+                iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+                iTarget == iCur ? (clearInterval(obj.timer), callback && callback.call(obj)) : obj.style.height = iSpeed + iCur + "px";
+            }, 30);
+        }
+    };
+    window.onload = function() {
+        var oWrap = document.getElementById("wrap"),
+            oTopBar = document.getElementById("topBar"),
+            oNav = document.getElementById("nav"),
+            fnStatus = function(status) {
+                !!status ?
+                    (function() {
+                        oNav.className = "hide";
+                        fgm.doMove(oTopBar, 4);
+                        fgm.doMove(oNav, 30);
+                    })() :
+                    (function() {
+                        fgm.doMove(oTopBar, 28);
+                        fgm.doMove(oNav, 50, function() {
+                            this.className = "";
+                        })
+                    })();
+            };
+        fgm.fixed(oWrap); //IE6 Fixed
+        window.onscroll = function() {
+            var iScrollTop = fgm.scrollTop();
+            fnStatus(iScrollTop > 0);
+            document.onmouseover = function(ev) {
+                var oEv = ev || event,
+                    oTarget = oEv.target || oEv.srcElement,
+                    contains = function() {
+                        if (oWrap.contains) {
+                            return oWrap.contains(oTarget);
+                        } else if (oWrap.compareDocumentPosition) {
+                            return !!(oWrap.compareDocumentPosition(oTarget) & 16);
+                        }
+                    }();
+                fnStatus(!contains && iScrollTop > 0);
+            };
+        };
+        window.onscroll();
+    };
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="topBar">【下拉滚动条查看效果】如蒙转载请注明出处 <a href="http://js.fgm.cc">Fgm.cc</a> , By &mdash; Ferris, QQ:21314130</div>
+        <!--/topBar-->
+        <div id="nav">
+            <div class="logo"><a href="javascript:;">IBM</a></div>
+            <ul>
+                <li><a href="javascript:;">解决方案</a></li>
+                <li><a href="javascript:;">服务</a></li>
+                <li><a href="javascript:;">产品</a></li>
+                <li><a href="javascript:;">支持与下载</a></li>
+                <li><a href="javascript:;">个性化服务</a></li>
+            </ul>
+        </div>
+        <!--/nav-->
+    </div>
+    <!--/wrap-->
+</body>
+
+</html>
