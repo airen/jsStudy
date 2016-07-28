@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Exercise: #4</title>
+    <style>
+    body {
+        height: 100vh;
+        background: #f5f5f5;
+    }
+    
+    .container {
+        margin: 20px auto;
+        width: 50vw;
+    }
+    
+    form {
+        background: #fefefe;
+        padding: 10px;
+        display: inline-block;
+        border-radius: 3px;
+        margin-bottom: 15px;
+    }
+    
+    form label {
+        cursor: pointer;
+    }
+    
+    form input {
+        border: 1px solid #ccc;
+        padding: 10px 15px;
+        border-radius: 4px;
+        background: #fff;
+        font-size: 14px;
+        color: #333;
+        margin: 0 5px;
+    }
+    
+    form input:focus {
+        border-color: rgba(37, 162, 222, 0.8);
+        box-shadow: 0 0 5px rgba(37, 162, 222, 0.5);
+        outline: none;
+    }
+    
+    form .btn {
+        border: 1px solid #1f93cb;
+        background: #1f93cb;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    
+    ul {
+        list-style: none outside none;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: start;
+        -webkit-justify-content: start;
+        -ms-flex-pack: start;
+        justify-content: start;
+        -webkit-flex-flow: wrap;
+        -ms-flex-flow: wrap;
+        flex-flow: wrap;
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul li {
+        margin: 5px;
+        background: #3babe1;
+        color: #fff;
+        padding: 5px 8px 5px 5px;
+        font-size: 14px;
+        line-height: 1;
+        border-radius: 3px;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    ul li:before {
+        content: '\2297';
+        font-size: 20px;
+        position: absolute;
+        font-family: Arial;
+        right: -8px;
+        top: -8px;
+        background: #3babe1;
+        line-height: 12px;
+        padding: 2px;
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="add-item" method="post" action="#">
+            <label for="newitem">添加标签：</label>
+            <input type="text" name="newitem" id="newitem" placeholder="添加需要的标签" required />
+            <button type="submit" class="btn">添加</button>
+        </form>
+        <ul class="item" id="todolist">
+        </ul>
+    </div>
+    <script>
+    (function() {
+        var todo = document.querySelector('#todolist'),
+            form = document.querySelector('.add-item'),
+            field = document.querySelector('#newitem');
+
+        // 监听form的submit事件
+        form.addEventListener('submit', function(e) {
+            todo.innerHTML += '<li>' + field.value + '</li>';
+            // 将field的value重置为空
+            field.value = '';
+            // field获得键盘焦点
+            field.focus();
+            storestate();
+            // 阻止事件冒泡
+            e.preventDefault();
+        }, false);
+
+        // 删除添加的list
+        todo.addEventListener('click', function(e) {
+            var t = e.target;
+            if (t.tagName === 'LI') {
+                if (t.classList.contains('done')) {
+                    t.parentNode.removeChild(t);
+                } else {
+                    t.classList.add('done');
+                }
+                storestate();
+            }
+            e.preventDefault();
+        }, false);
+
+        // 页面文档完全加载并解析完毕之后,会触发DOMContentLoaded事件
+        // 调用retrievestate函数
+        document.addEventListener('DOMContentLoaded', retrievestate, false);
+
+        function storestate() {
+            // 将todo.innerHtml存到一个名为todolist的localStorage里
+            // http://www.alloyteam.com/2012/04/sth-about-localstorage/
+            // https://www.smashingmagazine.com/2010/10/local-storage-and-how-to-use-it/
+            localStorage.todolist = todo.innerHTML;
+        };
+
+        function retrievestate() {
+            if (localStorage.todolist) {
+                todo.innerHTML = localStorage.todolist;
+            }
+        };
+
+    })();
+    </script>
+</body>
+
+</html>

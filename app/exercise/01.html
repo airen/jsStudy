@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Exercise: #1</title>
+    <style type="text/css" media="screen">
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    ul {
+        list-style: none outside none;
+        margin: 2em;
+        display: flex;
+        flex-flow: wrap;
+    }
+    
+    ul li {
+        margin: 5px;
+        padding: 1rem 3rem;
+        border: 1px solid #ccc;
+        background: #fefefe;
+    }
+    
+    ul li.selected {
+        background: #a99;
+        color: #fff;
+    }
+    
+    div {
+        padding: 0 3rem;
+        flex: 1 1 20rem;
+        position: relative;
+    }
+    
+    div span {
+        position: absolute;
+        padding: 20px;
+        background: #f33;
+        color: #fff;
+        border-radius: 100%;
+        line-height: 1;
+        font-family: aria;
+        font-size: 2em;
+        text-align: center;
+        box-sizing: padding-box;
+    }
+    
+    div span:after {
+        content: '';
+        display: inline-block;
+        height: 0;
+        padding-top: 100%;
+        width: 0;
+        vertical-align: middle;
+    }
+    
+    div span.active {
+        animation: scale .28s ease both;
+    }
+    
+    @keyframes scale {
+        0% {
+            transform: scale(1, 1);
+        }
+        50% {
+            transform: scale(1.1, 1.1);
+        }
+        100% {
+            transform: scale(1, 1);
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>item1</li>
+        <li>item2</li>
+        <li>item3</li>
+        <li>item4</li>
+        <li>item5</li>
+        <li>item6</li>
+        <li>item7</li>
+        <li>item8</li>
+        <li>item9</li>
+        <li>item10</li>
+        <li>item11</li>
+        <li>item12</li>
+    </ul>
+    <div>你选择的数: <span>0</span></div>
+    <script>
+    (function() {
+        var aLiEle = document.querySelectorAll('li');
+        //var arr = [];
+        var numEle = document.querySelector('span');
+
+        for (var i = 0; i < aLiEle.length; i++) {
+            aLiEle[i].addEventListener('click', function() {
+                var hasClass = this.classList.contains('selected');
+                changeClass();
+
+                if (!hasClass) {
+                    this.classList.add('selected');
+                    //arr[index] = 1;
+                    calSum();
+                } else {
+                    this.classList.remove('selected');
+                    // arr[index] = 0;
+                    calSum();
+                }
+            });
+        }
+
+        function calSum() {
+            var nums = document.querySelectorAll('li.selected');
+            numEle.innerText = nums.length;
+        }
+        var st = null;
+
+        function changeClass() {
+            clearTimeout(st);
+            var hasClass = numEle.classList.contains('active');
+            numEle.classList.remove('active');
+            setTimeout(function() {
+                numEle.classList.add('active');
+            }, 10);
+        }
+    })();
+    </script>
+</body>
+
+</html>
