@@ -1,6 +1,7 @@
 function CreateList() {
 	this.oWrap = document.createElement("div");
 	this.copyright = document.createElement("div");
+	this.header = document.createElement("div");
 	this.initialize.apply(this, arguments);
 	this.click.call(this)
 }
@@ -25,9 +26,12 @@ CreateList.prototype = {
 			this.oWrap.appendChild(oDl);
 			aData.shift()
 		}
+		this.header.id = "header";
+		this.header.innerHTML = "JavaScript学习示例集锦";
 		this.oWrap.id = "wrap";
 		this.copyright.id = "copyright";
-		this.copyright.innerHTML = "By &mdash; Ferris";
+		this.copyright.innerHTML = "第一课至项目案例来自于 &mdash; Ferris；后面内容由W3cplus的@大漠 提供";
+		document.body.appendChild(this.header);
 		document.body.appendChild(this.oWrap);
 		document.body.appendChild(this.copyright)
 	},
