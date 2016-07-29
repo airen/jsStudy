@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>向左滑动删除 | Html5 touchmove</title>
+    <style type="text/css" media="screen">
+    .mobile {
+        width: 406px;
+        height: 814px;
+        margin: 20px auto 0;
+        background: url("http://www.w3cplus.com/sites/default/files/blogs/2016/1607/iphone6s.png") no-repeat center;
+        background-size: 406px 814px;
+        position: relative;
+    }
+    
+    .mobile .content {
+        position: absolute;
+        top: 110px;
+        right: 24px;
+        bottom: 90px;
+        left: 25px;
+    }
+    
+    .mobile header {
+        position: absolute;
+        background: #2196F3;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        text-align: center;
+        color: #fff;
+    }
+    
+    .mobile .view {
+        padding-top: 40px;
+    }
+    
+    .mobile ul {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        list-style: none outside none;
+    }
+    
+    .mobile li {
+        line-height: 40px;
+        border-bottom: 1px solid #fcfcfc;
+        position: relative;
+        padding: 0 12px;
+        color: #333;
+        background: #f2f2f2;
+        -webkit-transform: translateX(0px);
+        transform: translateX(0px);
+    }
+    
+    .mobile .view-content {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .mobile .btn {
+        position: absolute;
+        top: 0;
+        right: -80px;
+        bottom: 0;
+        text-align: center;
+        background: #F44336;
+        color: #fff;
+        width: 80px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="mobile">
+        <div class="content">
+            <header>消息列表</header>
+            <div class="view">
+                <ul>
+                    <li class="view-item">
+                        <div class="view-content">快到家了</div>
+                        <div class="btn">删除</div>
+                    </li>
+                    <li class="view-item">
+                        <div class="view-content">我到家了，你来了？</div>
+                        <div class="btn">删除</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        window.addEventListener('load', function() {
+            var initX, // 触摸位置
+                moveX, // 滑动的位置
+                X = 0, // 移动距离
+                objX = 0; // 目标对象位置
+            window.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+
+                var obj = e.target.parentNode;
+                if (obj.className === 'view-item') {
+                    initX = e.targetTouches[0].pageX;
+                    objX = (obj.style.WebkitTransform.replace(/translateX\(/g, "").replace(/px\)/g, "")) * 1;
+                }
+
+                if (objX == 0) {
+                    window.addEventListener('touchmove', function(e) {
+                        e.preventDefault();
+
+                        var obj = e.target.parentNode;
+
+                        if (obj.className === 'view-item') {
+                            moveX = e.targetTouches[0].pageX;
+                            X = moveX - initX;
+                            if (X > 0) {
+                                obj.style.WebkitTransform = "translateX(" + 0 + "px)";
+                            } else if (X < 0) {
+                                var l = Math.abs(X);
+                                obj.style.WebkitTransform = "translateX(" + -l + "px)";
+
+                                if (l > 80) {
+                                    l = 80;
+                                    obj.style.WebkitTransform = "translateX(" + -l + "px)";
+                                }
+                            }
+                        }
+                    });
+                } else if (objX < 0) {
+                    window.addEventListener('touchmove', function(e) {
+                        e.preventDefault;
+                        var obj = e.target.parentNode;
+                        if (obj.className === "view-item") {
+                            moveX = e.targetTouches[0].pageX;
+                            X = moveX - initX;
+
+                            if (X >= 0) {
+                                var r = -80 + Math.abs(X);
+                                obj.style.WebkitTransform = "translateX(" + r + "px)";
+
+                                if (r > 0) {
+                                    r = 0;
+                                    obj.style.WebkitTransform = "translateX(" + r + "px)";
+                                }
+                            } else {
+                                obj.style.WebkitTransform = "translateX(" + -80 + "px)";
+                            }
+                        }
+                    })
+                }
+            });
+
+            window.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                var obj = e.target.parentNode;
+
+                if (obj.className === "view-item") {
+                    objX = (obj.style.WebkitTransform.replace(/translateX\(/g, "").replace(/px\)/g, "")) * 1;
+
+                    if (objX > -40) {
+                        obj.style.WebkitTransform = "translateX(" + 0 + "px)";
+                        objX = 0;
+                    } else {
+                        obj.style.WebkitTransform = "translateX(" + -80 + "px)";
+                        objX = -80;
+                    }
+                }
+            });
+        });
+    })();
+    </script>
+</body>
+
+</html>

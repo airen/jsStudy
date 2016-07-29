@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebChat | 模拟微信聊天发消息</title>
+    <style>
+    li {
+        list-style: none outside none;
+    }
+    
+    .container {
+        width: 406px;
+        height: 814px;
+        margin: 20px auto 0;
+        background: url("http://www.w3cplus.com/sites/default/files/blogs/2016/1607/iphone6s.png") no-repeat center;
+        background-size: 406px 814px;
+        position: relative;
+    }
+    
+    #name {
+        width: 25px;
+        height: 25px;
+        border: 1px solid darkgrey;
+        border-radius: 3px;
+        padding: 3px;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    .main {
+        bottom: 90px;
+        left: 25px;
+        border-top: 1px solid darkgrey;
+        position: absolute;
+        padding: 3px 4px 3px 6px;
+        width: 346px;
+    }
+    
+    #import {
+        border-radius: 2px;
+        height: 20px;
+        line-height: 20px;
+        border: 1px solid #b8b8b8;
+        outline: 0;
+        padding: 5px;
+        width: 245px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    #enter {
+        font: 14px 'Microsoft YaHei';
+        cursor: pointer;
+        padding: 6px 10px;
+        background: #3396ff;
+        color: #fff;
+        border-radius: 3px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    .content {
+        top: 140px;
+        position: absolute;
+        overflow: auto;
+        padding: 20px;
+        left: 25px;
+        right: 24px;
+    }
+    
+    #inHtml {
+    	margin: 0;
+    	padding: 0;
+    	list-style: none outside none;
+    }
+    .content li {
+        line-height: 28px;
+        margin-bottom: 15px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    #inHtml img {
+        width: 25px;
+        height: 25px;
+        position: relative;
+    }
+
+    .th {
+        text-align: right;
+    }
+    .ds {
+        text-align: left;
+    }
+
+    .th img {
+        float: right;
+        margin-left: 15px;
+    }
+
+    .ds img {
+        float: left;
+        margin-right: 15px;
+    }
+	#inHtml p {
+		padding: 3px 5px;
+		border-radius: 4px;
+		color: white;
+		margin: 0;
+        position: relative;
+        max-width: 190px;
+        font: 14px 'Microsoft YaHei';
+	}
+	#inHtml p:before {
+		content:'';
+        width: 0;
+        height: 0;
+        border: solid 8px;
+        position: absolute;
+        top: 4px;
+	}
+    .th p {
+        background: forestgreen;
+        text-align: left;
+        float: right;
+    }
+
+    .th p:before {
+    	border-color: transparent transparent transparent forestgreen !important;
+        left: 100%;
+    }
+    .ds p {
+        background: dimgrey;
+        float: left;
+    }
+    .ds p:before {
+        border-color: transparent dimgrey transparent transparent !important;
+        right: 100%;
+    }
+    
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <ul id="inHtml"></ul>
+        </div>
+        <div class="main">
+            <img id='name' src="https://unsplash.it/45/45?image=1">
+            <input id='import' type="text">
+            <span id="enter">发送</span>
+        </div>
+    </div>
+    <script>
+    (function() {
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        // 定义一个数组，放置两个头像
+        var avatar = [
+            'https://unsplash.it/45/45?image=1',
+            'https://unsplash.it/45/45?image=2'
+        ];
+        // 获取name头像
+        var oName = $('name');
+        // 获取输入框元素
+        var oGet = $('import');
+        // 显示输入内容
+        var oWrite = $('inHtml');
+        // 默认输入框显示光标
+        oGet.focus();
+        // 默认显示土豪
+        var onOff = true;
+
+        // 给oName一个点击事件
+        oName.addEventListener('click', function() {
+            if (onOff) {
+                oName.src = avatar[1];
+                onOff = false;
+                oGet.focus();
+            } else {
+                oName.src = avatar[0];
+                onOff = true;
+                oGet.focus();
+            }
+        });
+
+        // 发送事件
+        var oSet = $('enter');
+        oSet.addEventListener('click', function() {
+            if (onOff) {
+                oWrite.innerHTML += '<li class="th">' + '<img src=' + avatar[0] + '><p>' + oGet.value + '</p></li>';
+            } else {
+                oWrite.innerHTML += '<li class="ds">' + '<img src=' + avatar[1] + '><p>' + oGet.value + '</p></li>';
+            }
+            oGet.value = '';
+            oGet.focus();
+        });
+    })();
+    </script>
+</body>
+
+</html>
