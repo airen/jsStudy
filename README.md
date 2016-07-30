@@ -2,6 +2,9 @@
 
 对于初学JavaScript的同学到一定的时候都希望能有一些练习的案例拿来练手。那么这个仓库就是用来做这样的一件事情。
 
+[![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/jsstudy)
+[![Codewake](https://www.codewake.com/badges/ask_question_flat_square.svg)](https://www.codewake.com/p/jsstudy)
+
 > **特别声明**: 前面的练习内容【第一课至案例】来源于@Ferris。由于时间太久，未记得来源链接地址。
 
 **JavaScript 练习**是我自己学习做的一些小案例。里面有不少的错误和不足之处，特请业内**大婶**多多多指点。如果您和我一样，也是初学者，欢迎提交您的练习，大家一起共进。
