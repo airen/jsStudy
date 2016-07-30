@@ -1,6 +1,5 @@
 # jsStudy
 
-[![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/jsstudy)
 [![Codewake](https://www.codewake.com/badges/ask_question_flat_square.svg)](https://www.codewake.com/p/jsstudy)
 
 对于初学JavaScript的同学到一定的时候都希望能有一些练习的案例拿来练手。那么这个仓库就是用来做这样的一件事情。
