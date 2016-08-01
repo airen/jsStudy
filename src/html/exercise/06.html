@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Exercise #6 | 创建时钟</title>
+    <style>
+    html,
+    body {
+        height: 100vh;
+        background: #9c9;
+    }
+    
+    #warp {
+        width: 230px;
+        height: 230px;
+        margin: 50px auto;
+    }
+    
+    #clock {
+        width: 200px;
+        height: 200px;
+        border-radius: 115px;
+        border: 15px solid #f96;
+        background: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate3d(-50%,-50%,0);
+        transform: translate3d(-50%,-50%,0);
+    }
+    
+    #number {
+        counter-reset: section;
+    }
+    
+    #number div {
+        width: 190px;
+        height: 20px;
+        position: absolute;
+        left: 10px;
+        top: 90px;
+        counter-increment: section;
+    }
+    
+    #number div:before {
+        content: counter(section);
+        display: block;
+        width: 20px;
+        height: 20px;
+    }
+    
+    #number div:nth-child(1) {
+        -webkit-transform: rotate(120deg);
+        transform: rotate(120deg);
+    }
+    
+    #number div:nth-child(1):before {
+        -webkit-transform: rotate(-120deg);
+        transform: rotate(-120deg);
+    }
+    
+    #number div:nth-child(2) {
+        -webkit-transform: rotate(150deg);
+        transform: rotate(150deg);
+    }
+    
+    #number div:nth-child(2):before {
+        -webkit-transform: rotate(-150deg);
+        transform: rotate(-150deg);
+    }
+    
+    #number div:nth-child(3) {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+    
+    #number div:nth-child(3):before {
+        -webkit-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+    }
+    
+    #number div:nth-child(4) {
+        -webkit-transform: rotate(210deg);
+        transform: rotate(210deg);
+    }
+    
+    #number div:nth-child(4):before {
+        -webkit-transform: rotate(-210deg);
+        transform: rotate(-210deg);
+    }
+    
+    #number div:nth-child(5) {
+        -webkit-transform: rotate(240deg);
+        transform: rotate(240deg);
+    }
+    
+    #number div:nth-child(5):before {
+        -webkit-transform: rotate(-240deg);
+        transform: rotate(-240deg);
+    }
+    
+    #number div:nth-child(6) {
+        -webkit-transform: rotate(270deg);
+        transform: rotate(270deg);
+    }
+    
+    #number div:nth-child(6):before {
+        -webkit-transform: rotate(-270deg);
+        transform: rotate(-270deg);
+    }
+    
+    #number div:nth-child(7) {
+        -webkit-transform: rotate(300deg);
+        transform: rotate(300deg);
+    }
+    
+    #number div:nth-child(7):before {
+        -webkit-transform: rotate(-300deg);
+        transform: rotate(-300deg);
+    }
+    
+    #number div:nth-child(8) {
+        -webkit-transform: rotate(330deg);
+        transform: rotate(330deg);
+    }
+    
+    #number div:nth-child(8):before {
+        -webkit-transform: rotate(-330deg);
+        transform: rotate(-330deg);
+    }
+    
+    #number div:nth-child(9) {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+    
+    #number div:nth-child(9):before {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+    
+    #number div:nth-child(10) {
+        -webkit-transform: rotate(390deg);
+        transform: rotate(390deg);
+    }
+    
+    #number div:nth-child(10):before {
+        -webkit-transform: rotate(-390deg);
+        transform: rotate(-390deg);
+    }
+    
+    #number div:nth-child(11) {
+        -webkit-transform: rotate(420deg);
+        transform: rotate(420deg);
+    }
+    
+    #number div:nth-child(11):before {
+        -webkit-transform: rotate(-420deg);
+        transform: rotate(-420deg);
+    }
+    
+    #number div:nth-child(12) {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+    
+    #number div:nth-child(12):before {
+        -webkit-transform: rotate(-450deg);
+        transform: rotate(-450deg);
+    }
+    
+    .pointer {
+        position: absolute;
+        bottom: 90px;
+        -webkit-transform-origin: 50% 90%;
+        transform-origin: 50% 90%;
+    }
+    
+    #houre {
+        width: 5px;
+        height: 60px;
+        left: 98px;
+        background: black;
+    }
+    
+    #minute {
+        width: 3px;
+        height: 70px;
+        left: 99px;
+        background: gray;
+    }
+    
+    #second {
+        width: 1px;
+        height: 80px;
+        left: 100px;
+        background: red;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="warp">
+        <div id="clock">
+            <div id="number">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="houre" class="pointer"></div>
+            <div id="minute" class="pointer"></div>
+            <div id="second" class="pointer"></div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        function ColorNumber() {
+            var oHoure = document.querySelector('#houre'),
+                oMinute = document.querySelector('#minute'),
+                oSecond = document.querySelector('#second'),
+                nowTime = new Date(),
+                nowHoure = nowTime.getHours(),
+                nowMinute = nowTime.getMinutes(),
+                nowSecond = nowTime.getSeconds(),
+                houreDeg = (nowMinute / 60) * 30,
+                minuteDeg = (nowSecond / 60) * 6;
+
+            oHoure.style.WebkitTransform = "rotate(" + (nowHoure * 30 + houreDeg) + "deg)";
+            oMinute.style.WebkitTransform = "rotate(" + (nowMinute * 6 + minuteDeg) + "deg)";
+            oSecond.style.WebkitTransform = "rotate(" + (nowSecond * 6) + "deg)";
+        }
+        ColorNumber();
+        setInterval(ColorNumber, 1000);
+    })();
+    </script>
+</body>
+
+</html>
