@@ -34,7 +34,7 @@
         var oInput = document.getElementsByTagName("input")[0]
         var oStrong = document.getElementsByTagName("strong")[0];
         oInput.onkeyup = function() {
-            this.value = this.value.replace(/[^(\d)|(,)]/, "")
+            this.value = this.value.replace(/[^(\d)|(,)]/g, "")
         }
         oBtn.onclick = function() {
             var sum = 0;
