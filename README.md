@@ -9,7 +9,7 @@
 **JavaScript 练习**是我自己学习做的一些小案例。里面有不少的错误和不足之处，特请业内**大婶**多多多指点。如果您和我一样，也是初学者，欢迎提交您的练习，大家一起共进。
 
 ## 项目下载
-
+3ssss
 	git clone git@github.com:airen/jsStudy.git
 
 ## 项目运行
